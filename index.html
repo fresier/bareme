@@ -93,6 +93,39 @@
       .disclaimer strong {
         color: #5a4100;
       }
+      .coeff-bar {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        background: #eef7f1;
+        border: 1px solid #b2d9c0;
+        border-radius: 8px;
+        padding: 0.55rem 0.9rem;
+        font-size: 0.83rem;
+        color: var(--anthracite);
+        margin-bottom: 1rem;
+      }
+      .coeff-bar input[type="number"] {
+        width: 7rem;
+        padding: 0.3rem 0.5rem;
+        font-size: 0.9rem;
+        border: 1px solid #b2d9c0;
+        border-radius: 6px;
+        background: #fff;
+      }
+      .coeff-date { color: var(--muted); font-size: 0.8rem; }
+      .coeff-btn {
+        padding: 0.3rem 0.85rem;
+        background: var(--teal);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .coeff-btn:hover { background: var(--teal-dark); }
 
       nav.tabs {
         display: flex;
@@ -376,6 +409,25 @@
         opacity: 0.9;
         margin-top: 0.6rem;
       }
+      .share-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        position: absolute;
+        top: 1rem;
+        right: 1.1rem;
+        padding: 0.4rem 0.9rem;
+        background: rgba(255,255,255,0.18);
+        border: 1px solid rgba(255,255,255,0.4);
+        border-radius: 999px;
+        color: #fff;
+        font-size: 0.82rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      .share-btn:hover { background: rgba(255,255,255,0.28); }
+      .share-btn svg { width: 15px; height: 15px; flex: none; }
 
       /* ---- Vue carrière : escalier des familles + grille barémique alignés ---- */
       .refscroll {
@@ -872,64 +924,17 @@
     <main class="wrap">
       <div class="disclaimer">
         <strong>Document indicatif.</strong> Les montants reproduisent le barème
-        officiel (brut mensuel indexé au coefficient 2,1647). En cas de
-        divergence,
+        officiel (brut mensuel indexé). En cas de divergence,
         <strong>le barème légal et votre fiche de paie font foi</strong>. Aucune
         donnée saisie ici n'est enregistrée ni transmise : tout est calculé dans
         votre navigateur.
       </div>
-
-      <!-- ============ SIMULATEUR (collapse) ============ -->
-      <details class="collapse simbox">
-        <summary>
-          Simuler ma situation — salaire actuel &amp; prochain avancement
-        </summary>
-        <div class="simform">
-          <div class="field">
-            <label for="simFam">Ma famille de valorisation</label>
-            <select id="simFam"></select>
-          </div>
-          <div class="field">
-            <label for="simGrade">Mon grade / barème actuel</label>
-            <select id="simGrade"></select>
-          </div>
-          <div class="field">
-            <label for="simSince"
-              >Depuis combien d'années à ce barème&nbsp;?</label
-            >
-            <input
-              type="number"
-              id="simSince"
-              min="0"
-              max="40"
-              value="0"
-              inputmode="numeric"
-            />
-          </div>
-          <div class="field">
-            <label for="simAnc"
-              >Mon ancienneté pécuniaire totale (années)</label
-            >
-            <div class="anc-row">
-              <input
-                type="range"
-                id="simAnc"
-                min="0"
-                max="40"
-                value="0"
-                step="1"
-              />
-              <span class="anc-val" id="simAncVal">0</span>
-            </div>
-          </div>
-        </div>
-        <p class="hint">
-          « Depuis … à ce barème » sert à calculer la
-          <strong>prochaine promotion</strong> ; l'ancienneté pécuniaire totale
-          détermine le <strong>montant du salaire</strong> et l'échelon.
-        </p>
-        <div class="result" id="simResult"></div>
-      </details>
+      <div class="coeff-bar">
+        <span>Coefficient d'indexation :</span>
+        <input id="coeffInput" type="number" step="0.0001" min="1" value="2.1647" />
+        <span class="coeff-date">Mis à jour : <span id="coeffDateLbl">mai 2026</span></span>
+        <button id="coeffSave" class="coeff-btn">Appliquer</button>
+      </div>
 
       <!-- ============ INFO FAMILLES (collapse) ============ -->
       <details class="collapse infobox">
@@ -1194,8 +1199,8 @@
                   <td class="v">1</td>
                   <td class="v">4</td>
                   <td>
-                    Chargé·e de mission expert·e · Juriste expert·e ·
-                    Conseiller·ère scientifique expert·e
+                    Chargé·e de mission expert·e · Juriste expert·e · Adjoint·e
+                    à la direction facultaire
                   </td>
                 </tr>
                 <tr>
@@ -1257,7 +1262,7 @@
                   <td class="b">25/3A</td>
                   <td class="v">2</td>
                   <td class="v">5</td>
-                  <td>Chef·fe programmeur·euse → Analyste de programmation</td>
+                  <td>Responsable d'équipe du support IT</td>
                 </tr>
                 <tr>
                   <td class="v">INFO2C</td>
@@ -1265,7 +1270,7 @@
                   <td class="b">12/2</td>
                   <td class="v">2</td>
                   <td class="v">6</td>
-                  <td>Chef·fe programmeur·euse → Informaticien·ne</td>
+                  <td>Analyste-développeur·euse expert·e</td>
                 </tr>
                 <tr>
                   <td class="v">INFO3</td>
@@ -1325,6 +1330,58 @@
         </div>
       </details>
 
+      <!-- ============ SIMULATEUR (collapse) ============ -->
+      <details class="collapse simbox">
+        <summary>
+          Simuler ma situation — salaire actuel &amp; prochain avancement
+        </summary>
+        <div class="simform">
+          <div class="field">
+            <label for="simFam">Ma famille de valorisation</label>
+            <select id="simFam"></select>
+          </div>
+          <div class="field">
+            <label for="simGrade">Mon grade / barème actuel</label>
+            <select id="simGrade"></select>
+          </div>
+          <div class="field">
+            <label for="simSince"
+              >Depuis combien d'années à ce barème&nbsp;?</label
+            >
+            <input
+              type="number"
+              id="simSince"
+              min="0"
+              max="40"
+              value="0"
+              inputmode="numeric"
+            />
+          </div>
+          <div class="field">
+            <label for="simAnc"
+              >Mon ancienneté pécuniaire totale (années)</label
+            >
+            <div class="anc-row">
+              <input
+                type="range"
+                id="simAnc"
+                min="0"
+                max="40"
+                value="0"
+                step="1"
+              />
+              <span class="anc-val" id="simAncVal">0</span>
+            </div>
+          </div>
+        </div>
+        <p class="hint">
+          « Depuis … à ce barème » sert à calculer la
+          <strong>prochaine promotion</strong> ; l'ancienneté pécuniaire totale
+          détermine le <strong>montant du salaire</strong> et l'échelon.
+        </p>
+        <div class="result" id="simResult"></div>
+      </details>
+
       <!-- ============ CARRIÈRE & BARÈMES ============ -->
       <div class="card">
         <div class="card-header">
@@ -1372,7 +1429,7 @@
 
     <footer>
       Outil informatif réalisé pour les affiliés · données issues du barème
-      officiel · dernière mise à jour des montants : mai 2026.
+      officiel · coefficient de référence : 2,1647 (mai 2026).
     </footer>
 
     <script>
@@ -1380,7 +1437,10 @@
    DONNÉES — tout se met à jour ici.
    steps = { ancienneté : montant_brut_mensuel_indexé }.
    =========================================================================== */
-      const INDEX_COEFF = "2,1647";
+      const COEFF_REF  = 2.1647;   // coefficient auquel les montants steps sont calculés
+      let   coeffCurrent = COEFF_REF;
+
+      const toIndexed = v => Math.round(v * coeffCurrent / COEFF_REF * 100) / 100;
 
       const DATA = {
         admin: {
@@ -2042,7 +2102,23 @@
           '<polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/>',
         ),
         step: SVG('<path d="M4 18h4v-4h4v-4h4v-4h4"/>'),
+        share: SVG('<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>'),
       };
+
+      function shareSimulation() {
+        pushSimUrl();
+        const url = location.href;
+        if (navigator.share) {
+          navigator.share({ title: "Ma simulation barème CNE-CSC", url });
+        } else {
+          navigator.clipboard.writeText(url).then(() => {
+            const btn = document.getElementById("shareBtn");
+            const orig = btn.innerHTML;
+            btn.textContent = "✓ Lien copié !";
+            setTimeout(() => { btn.innerHTML = orig; }, 2000);
+          });
+        }
+      }
 
       function renderResult() {
         const [bk, fi] = $("simFam").value.split(":");
@@ -2069,8 +2145,11 @@
         const ns = nextStep(g.steps, T);
 
         $("simResult").innerHTML = `
+    <button class="share-btn" id="shareBtn" onclick="shareSimulation()">
+      ${IC.share}Partager ma simulation
+    </button>
     <div class="head">${IC.wallet}<span class="lbl">Salaire actuel — brut mensuel indexé</span></div>
-    <div class="euro">${euro.format(eff.val)}<small>/ mois</small></div>
+    <div class="euro">${euro.format(toIndexed(eff.val))}<small>/ mois</small></div>
     <div class="chips">
       <span class="chip">${g.code}</span>
       <span class="chip">Barème ${g.bareme}</span>
@@ -2085,7 +2164,7 @@
           nextGrade
             ? `<div class="v">dans ${toPromo} an${toPromo > 1 ? "s" : ""}</div>
              <span class="meta">vers ${nextGrade.code} — ${nextGrade.fonction}
-               → ${euro.format(promoVal)}</span>`
+               → ${euro.format(toIndexed(promoVal))}</span>`
             : `<div class="v">—</div><span class="meta">grade final de la famille atteint</span>`
         }
       </div>
@@ -2094,7 +2173,7 @@
         ${
           ns
             ? `<div class="v">dans ${ns.at - T} an${ns.at - T > 1 ? "s" : ""}</div>
-             <span class="meta">${euro.format(ns.val)} · +${euro.format(ns.val - eff.val)}</span>`
+             <span class="meta">${euro.format(toIndexed(ns.val))} · +${euro.format(toIndexed(ns.val - eff.val))}</span>`
             : `<div class="v">—</div><span class="meta">échelon maximum atteint</span>`
         }
       </div>
@@ -2262,7 +2341,7 @@
             const cl = "col-" + colClass(c, mode);
             const has = Object.prototype.hasOwnProperty.call(c.steps, a);
             body += has
-              ? `<div class="ucell ${cl}" data-bareme="${c.bareme}" data-anc="${a}" style="grid-row:${row};grid-column:${k + 2}">${euro.format(c.steps[a])}</div>`
+              ? `<div class="ucell ${cl}" data-bareme="${c.bareme}" data-anc="${a}" style="grid-row:${row};grid-column:${k + 2}">${euro.format(toIndexed(c.steps[a]))}</div>`
               : `<div class="ucell ${cl} empty" data-bareme="${c.bareme}" data-anc="${a}" style="grid-row:${row};grid-column:${k + 2}"></div>`;
           });
         }
@@ -2481,6 +2560,16 @@
         sim.addEventListener("toggle", () => {
           pushSimUrl();
           highlightSim();
+        });
+
+        $("coeffSave").addEventListener("click", () => {
+          const v = parseFloat($("coeffInput").value);
+          if (!isNaN(v) && v > 0) {
+            coeffCurrent = v;
+            const mode = document.querySelector("input[name=famfilter]:checked")?.value ?? "all";
+            renderUnified(mode);
+            renderResult();
+          }
         });
       }
       init();
