@@ -977,6 +977,147 @@
         votre navigateur.
       </div>
 
+      <!-- ============ SIMULATEUR (collapse) ============ -->
+      <details class="collapse simbox">
+        <summary>
+          Simuler ma situation — salaire actuel &amp; prochain avancement
+        </summary>
+        <div class="simform">
+          <div class="field">
+            <label for="simFam">Ma famille de valorisation</label>
+            <select id="simFam"></select>
+          </div>
+          <div class="field">
+            <label for="simGrade">Mon grade / barème actuel</label>
+            <select id="simGrade"></select>
+          </div>
+          <div class="field">
+            <label for="simSince"
+              >Depuis combien d'années à ce barème&nbsp;?</label
+            >
+            <input
+              type="number"
+              id="simSince"
+              min="0"
+              max="40"
+              value="0"
+              inputmode="numeric"
+            />
+          </div>
+          <div class="field">
+            <label for="simAnc"
+              >Mon ancienneté pécuniaire totale (années)</label
+            >
+            <div class="anc-row">
+              <input
+                type="range"
+                id="simAnc"
+                min="0"
+                max="40"
+                value="0"
+                step="1"
+              />
+              <span class="anc-val" id="simAncVal">0</span>
+            </div>
+          </div>
+        </div>
+        <p class="hint">
+          « Depuis … à ce barème » sert à calculer la
+          <strong>prochaine promotion</strong> ; l'ancienneté pécuniaire totale
+          détermine le <strong>montant du salaire</strong> et l'échelon.
+        </p>
+        <div class="result" id="simResult"></div>
+      </details>
+
+      <!-- ============ CARRIÈRE & BARÈMES ============ -->
+      <div class="card">
+        <div class="card-header">
+          <h2>Vue unifiée — familles &amp; barèmes alignés</h2>
+          <div
+            class="filter"
+            role="radiogroup"
+            aria-label="Filtrer l'affichage"
+          >
+            <label
+              ><input type="radio" name="famfilter" value="all" checked />
+              Afficher tout</label
+            >
+            <label
+              ><input type="radio" name="famfilter" value="admin" />
+              Administratif</label
+            >
+            <label
+              ><input type="radio" name="famfilter" value="it" />
+              Informatique</label
+            >
+          </div>
+        </div>
+        <div class="refscroll">
+          <div class="refinner" id="careerHost"></div>
+        </div>
+        <p class="legend">
+          Tableau unique : ossature administrative avec les grades
+          informaticiens <strong>insérés à leur niveau barémique</strong> ; les
+          deux barèmes communs sont fusionnés (<strong>2G5 = S30</strong> en
+          23/1, <strong>1A3 = S33</strong> en 12/1). En haut, les
+          <strong>familles de valorisation</strong> alignées sur les colonnes —
+          une barre traverse les colonnes de son parcours (les nombres = années
+          avant le grade suivant) : <span class="sw admin"></span>familles
+          administratives, <span class="sw it"></span>familles informaticiens.
+          Colonnes : <span class="sw admin"></span>administratif &nbsp;<span
+            class="sw itcol"
+          ></span
+          >informaticien &nbsp;<span class="sw bothcol"></span>commun.
+          Engagement sans diplôme IT : INFO1/INFO2 → 5 ans en famille A, INFO3 →
+          5 ans en famille D.
+        </p>
+      </div>
+
+      <!-- ============ GLOSSAIRE (collapse) ============ -->
+      <details class="collapse">
+        <summary>Glossaire — termes clés</summary>
+        <div class="gloss">
+          <dl>
+            <div class="gl-entry">
+              <dt>Barème</dt>
+              <dd>Grille de salaires officielle identifiée par un code (ex.&nbsp;<strong>24/3</strong>). À chaque barème correspond une série de montants bruts mensuels indexés qui progressent avec l'ancienneté pécuniaire.</dd>
+            </div>
+            <div class="gl-entry">
+              <dt>Échelon barémique</dt>
+              <dd>Palier salarial à l'intérieur d'un même barème, atteint automatiquement après un certain nombre d'années d'ancienneté pécuniaire. L'avancement d'échelon est <strong>automatique</strong>, sans mise en concurrence.</dd>
+            </div>
+            <div class="gl-entry">
+              <dt>Famille de valorisation</dt>
+              <dd>Catégorie RH regroupant des fonctions-types de même niveau et spécialisation. Elle définit le barème d'entrée, les étapes intermédiaires et le barème maximal accessible par avancement.</dd>
+            </div>
+            <div class="gl-entry">
+              <dt>Grade</dt>
+              <dd>Position d'un agent dans l'échelle barémique (ex.&nbsp;<strong>2G5</strong>, <strong>S31</strong>). Chaque grade correspond à un barème précis et une fonction-type.</dd>
+            </div>
+            <div class="gl-entry">
+              <dt>Coefficient d'indexation</dt>
+              <dd>Multiplicateur appliqué aux montants de base pour obtenir le salaire brut réel. Il est révisé périodiquement en fonction de l'<strong>indice santé belge</strong>.</dd>
+            </div>
+            <div class="gl-entry gl-highlight">
+              <dt>Ancienneté pécuniaire</dt>
+              <dd>Nombre d'années retenues pour déterminer l'<strong>échelon salarial</strong> dans le barème. Elle peut être supérieure à l'ancienneté dans le barème grâce aux reprises d'ancienneté.</dd>
+            </div>
+            <div class="gl-entry gl-highlight">
+              <dt>Ancienneté dans le barème</dt>
+              <dd>Durée effective passée dans le barème actuel. <strong>Différente de l'ancienneté pécuniaire</strong> : une reprise d'ancienneté augmente la pécuniaire sans augmenter l'ancienneté dans le barème.</dd>
+            </div>
+            <div class="gl-entry">
+              <dt>Reprise d'ancienneté</dt>
+              <dd>Reconnaissance partielle ou totale d'une expérience professionnelle antérieure (secteur public, privé, indépendant). Les règles varient selon le statut et la fonction. Une reprise augmente l'ancienneté pécuniaire <strong>dès l'engagement</strong>, ce qui peut faire démarrer l'agent à un échelon plus élevé.</dd>
+            </div>
+          </dl>
+          <div class="gl-note">
+            <strong>⚠ Ancienneté pécuniaire ≠ ancienneté dans le barème.</strong>
+            Exemple : un agent engagé avec 6 ans d'expérience privée reprise à 50&nbsp;% démarre avec 3 ans d'ancienneté pécuniaire mais 0 an dans le barème d'engagement. Son salaire correspond à l'échelon 3 ans du barème dès le premier jour, mais il n'a pas encore d'ancienneté institutionnelle. En cas de doute, demandez à votre service RH le détail de votre ancienneté pécuniaire retenue.
+          </div>
+        </div>
+      </details>
+
       <!-- ============ INFO FAMILLES (collapse) ============ -->
       <details class="collapse infobox">
         <summary>Comprendre les familles de valorisation</summary>
@@ -1368,147 +1509,6 @@
             en vigueur depuis le 1ᵉʳ janvier 2026. Document informatif : votre
             fiche de paie et le statut font foi.
           </p>
-        </div>
-      </details>
-
-      <!-- ============ SIMULATEUR (collapse) ============ -->
-      <details class="collapse simbox">
-        <summary>
-          Simuler ma situation — salaire actuel &amp; prochain avancement
-        </summary>
-        <div class="simform">
-          <div class="field">
-            <label for="simFam">Ma famille de valorisation</label>
-            <select id="simFam"></select>
-          </div>
-          <div class="field">
-            <label for="simGrade">Mon grade / barème actuel</label>
-            <select id="simGrade"></select>
-          </div>
-          <div class="field">
-            <label for="simSince"
-              >Depuis combien d'années à ce barème&nbsp;?</label
-            >
-            <input
-              type="number"
-              id="simSince"
-              min="0"
-              max="40"
-              value="0"
-              inputmode="numeric"
-            />
-          </div>
-          <div class="field">
-            <label for="simAnc"
-              >Mon ancienneté pécuniaire totale (années)</label
-            >
-            <div class="anc-row">
-              <input
-                type="range"
-                id="simAnc"
-                min="0"
-                max="40"
-                value="0"
-                step="1"
-              />
-              <span class="anc-val" id="simAncVal">0</span>
-            </div>
-          </div>
-        </div>
-        <p class="hint">
-          « Depuis … à ce barème » sert à calculer la
-          <strong>prochaine promotion</strong> ; l'ancienneté pécuniaire totale
-          détermine le <strong>montant du salaire</strong> et l'échelon.
-        </p>
-        <div class="result" id="simResult"></div>
-      </details>
-
-      <!-- ============ CARRIÈRE & BARÈMES ============ -->
-      <div class="card">
-        <div class="card-header">
-          <h2>Vue unifiée — familles &amp; barèmes alignés</h2>
-          <div
-            class="filter"
-            role="radiogroup"
-            aria-label="Filtrer l'affichage"
-          >
-            <label
-              ><input type="radio" name="famfilter" value="all" checked />
-              Afficher tout</label
-            >
-            <label
-              ><input type="radio" name="famfilter" value="admin" />
-              Administratif</label
-            >
-            <label
-              ><input type="radio" name="famfilter" value="it" />
-              Informatique</label
-            >
-          </div>
-        </div>
-        <div class="refscroll">
-          <div class="refinner" id="careerHost"></div>
-        </div>
-        <p class="legend">
-          Tableau unique : ossature administrative avec les grades
-          informaticiens <strong>insérés à leur niveau barémique</strong> ; les
-          deux barèmes communs sont fusionnés (<strong>2G5 = S30</strong> en
-          23/1, <strong>1A3 = S33</strong> en 12/1). En haut, les
-          <strong>familles de valorisation</strong> alignées sur les colonnes —
-          une barre traverse les colonnes de son parcours (les nombres = années
-          avant le grade suivant) : <span class="sw admin"></span>familles
-          administratives, <span class="sw it"></span>familles informaticiens.
-          Colonnes : <span class="sw admin"></span>administratif &nbsp;<span
-            class="sw itcol"
-          ></span
-          >informaticien &nbsp;<span class="sw bothcol"></span>commun.
-          Engagement sans diplôme IT : INFO1/INFO2 → 5 ans en famille A, INFO3 →
-          5 ans en famille D.
-        </p>
-      </div>
-
-      <!-- ============ GLOSSAIRE (collapse) ============ -->
-      <details class="collapse">
-        <summary>Glossaire — termes clés</summary>
-        <div class="gloss">
-          <dl>
-            <div class="gl-entry">
-              <dt>Barème</dt>
-              <dd>Grille de salaires officielle identifiée par un code (ex.&nbsp;<strong>24/3</strong>). À chaque barème correspond une série de montants bruts mensuels indexés qui progressent avec l'ancienneté pécuniaire.</dd>
-            </div>
-            <div class="gl-entry">
-              <dt>Échelon barémique</dt>
-              <dd>Palier salarial à l'intérieur d'un même barème, atteint automatiquement après un certain nombre d'années d'ancienneté pécuniaire. L'avancement d'échelon est <strong>automatique</strong>, sans mise en concurrence.</dd>
-            </div>
-            <div class="gl-entry">
-              <dt>Famille de valorisation</dt>
-              <dd>Catégorie RH regroupant des fonctions-types de même niveau et spécialisation. Elle définit le barème d'entrée, les étapes intermédiaires et le barème maximal accessible par avancement.</dd>
-            </div>
-            <div class="gl-entry">
-              <dt>Grade</dt>
-              <dd>Position d'un agent dans l'échelle barémique (ex.&nbsp;<strong>2G5</strong>, <strong>S31</strong>). Chaque grade correspond à un barème précis et une fonction-type.</dd>
-            </div>
-            <div class="gl-entry">
-              <dt>Coefficient d'indexation</dt>
-              <dd>Multiplicateur appliqué aux montants de base pour obtenir le salaire brut réel. Il est révisé périodiquement en fonction de l'<strong>indice santé belge</strong>.</dd>
-            </div>
-            <div class="gl-entry gl-highlight">
-              <dt>Ancienneté pécuniaire</dt>
-              <dd>Nombre d'années retenues pour déterminer l'<strong>échelon salarial</strong> dans le barème. Elle peut être supérieure à l'ancienneté dans le barème grâce aux reprises d'ancienneté.</dd>
-            </div>
-            <div class="gl-entry gl-highlight">
-              <dt>Ancienneté dans le barème</dt>
-              <dd>Durée effective passée dans le barème actuel. <strong>Différente de l'ancienneté pécuniaire</strong> : une reprise d'ancienneté augmente la pécuniaire sans augmenter l'ancienneté dans le barème.</dd>
-            </div>
-            <div class="gl-entry">
-              <dt>Reprise d'ancienneté</dt>
-              <dd>Reconnaissance partielle ou totale d'une expérience professionnelle antérieure (secteur public, privé, indépendant). Les règles varient selon le statut et la fonction. Une reprise augmente l'ancienneté pécuniaire <strong>dès l'engagement</strong>, ce qui peut faire démarrer l'agent à un échelon plus élevé.</dd>
-            </div>
-          </dl>
-          <div class="gl-note">
-            <strong>⚠ Ancienneté pécuniaire ≠ ancienneté dans le barème.</strong>
-            Exemple : un agent engagé avec 6 ans d'expérience privée reprise à 50&nbsp;% démarre avec 3 ans d'ancienneté pécuniaire mais 0 an dans le barème d'engagement. Son salaire correspond à l'échelon 3 ans du barème dès le premier jour, mais il n'a pas encore d'ancienneté institutionnelle. En cas de doute, demandez à votre service RH le détail de votre ancienneté pécuniaire retenue.
-          </div>
         </div>
       </details>
     </main>
