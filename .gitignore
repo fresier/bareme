@@ -1,0 +1,6 @@
+.DS_Store
+*.pdf
+.claude/
+
+# Documents d'analyse internes — ne jamais publier
+ANALYSE.md

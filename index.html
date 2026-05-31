@@ -1,0 +1,2489 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Barèmes — Vue synthétique pour les affiliés | CNE-CSC</title>
+    <style>
+      /* =========================================================================
+     Charte simple aux couleurs CNE-CSC. Fichier autonome, hors-ligne, full-width.
+     ========================================================================= */
+      :root {
+        /* verts officiels CNE-CSC (échantillonnés sur le logo) */
+        --teal: #00953e;
+        --teal-dark: #007844;
+        --anthracite: #1f2933;
+        --bg: #f4f6f7;
+        --card: #ffffff;
+        --line: #dfe5e8;
+        --muted: #5b6b73;
+        --shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+        /* familles : reprennent les teintes du document source */
+        --fam-admin-bg: #f8cbad;
+        --fam-admin-bd: #dd9b6f;
+        --fam-admin-tx: #7a3e12;
+        --fam-it-bg: #c5b9e0;
+        --fam-it-bd: #9b88c4;
+        --fam-it-tx: #3d2c63;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
+        color: var(--anthracite);
+        background: var(--bg);
+        line-height: 1.5;
+      }
+      header {
+        background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+        color: #fff;
+        padding: 1.1rem 0;
+      }
+      .wrap {
+        width: 100%;
+        margin: 0;
+        padding: 0 1.5rem;
+      } /* pleine largeur */
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .logo-box {
+        background: #fff;
+        padding: 0.4rem 0.55rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        flex: none;
+      }
+      .logo-box img {
+        display: block;
+        height: 46px;
+        width: auto;
+      }
+      header h1 {
+        font-size: 1.15rem;
+        margin: 0.1rem 0 0;
+        font-weight: 600;
+      }
+      header p {
+        margin: 0.15rem 0 0;
+        color: #c7d0d4;
+        font-size: 0.85rem;
+      }
+
+      .disclaimer {
+        background: #fff7e6;
+        border: 1px solid #f0d999;
+        color: #6b4e00;
+        border-radius: 8px;
+        padding: 0.7rem 0.9rem;
+        font-size: 0.83rem;
+        margin: 1rem 0;
+      }
+      .disclaimer strong {
+        color: #5a4100;
+      }
+
+      nav.tabs {
+        display: flex;
+        gap: 0.4rem;
+        flex-wrap: wrap;
+        margin: 1.25rem 0 1rem;
+      }
+      .tab {
+        border: 1px solid var(--line);
+        background: var(--card);
+        color: var(--anthracite);
+        padding: 0.55rem 1rem;
+        border-radius: 999px;
+        cursor: pointer;
+        font-size: 0.92rem;
+        font-weight: 600;
+      }
+      .tab.active {
+        background: var(--teal);
+        border-color: var(--teal);
+        color: #fff;
+      }
+      .tab:focus-visible {
+        outline: 2px solid var(--teal-dark);
+        outline-offset: 2px;
+      }
+
+      section.panel {
+        display: none;
+      }
+      section.panel.active {
+        display: block;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 1.1rem;
+        box-shadow: var(--shadow);
+        margin-bottom: 1rem;
+      }
+      .grid2 {
+        display: grid;
+        grid-template-columns: minmax(280px, 1fr) 2fr;
+        gap: 1rem;
+        align-items: start;
+      }
+      @media (max-width: 760px) {
+        .grid2 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .collapse {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 0 1.1rem;
+        margin-bottom: 1rem;
+        background: var(--card);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .collapse > summary {
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 1.02rem;
+        padding: 0.95rem 0;
+        list-style: none;
+        color: var(--teal-dark);
+      }
+      .collapse > summary::-webkit-details-marker {
+        display: none;
+      }
+      .collapse > summary::before {
+        content: "▸";
+        display: inline-block;
+        margin-right: 0.55rem;
+        color: var(--teal);
+        transition: transform 0.15s;
+      }
+      .collapse[open] > summary::before {
+        transform: rotate(90deg);
+      }
+      .collapse[open] {
+        padding-bottom: 1.1rem;
+      }
+      .collapse[open]:has(.result) {
+        padding-bottom: 0;
+      }
+      .simform {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        padding-top: 0.3rem;
+      }
+      @media (max-width: 620px) {
+        .simform {
+          grid-template-columns: 1fr;
+        }
+      }
+      .hint {
+        font-size: 0.8rem;
+        color: var(--muted);
+        margin: 0.4rem 0 0.9rem;
+      }
+      .simbox .result {
+        margin-top: 0.2rem;
+        margin-left: -1.1rem;
+        margin-right: -1.1rem;
+        margin-bottom: 0;
+        border-radius: 0 0 12px 12px;
+      }
+
+      label {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        margin-bottom: 0.3rem;
+      }
+      select,
+      input[type="range"] {
+        width: 100%;
+      }
+      select,
+      input[type="number"] {
+        padding: 0.6rem;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        font-size: 1rem;
+        background: #fff;
+      }
+      .field {
+        margin-bottom: 1rem;
+      }
+      .anc-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .anc-val {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--teal-dark);
+        min-width: 2.5ch;
+        text-align: center;
+      }
+
+      .result {
+        background: linear-gradient(
+          140deg,
+          #11a85f 0%,
+          var(--teal) 45%,
+          var(--teal-dark) 100%
+        );
+        color: #fff;
+        border-radius: 14px;
+        padding: 1.35rem 1.4rem;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 26px rgba(0, 120, 68, 0.28);
+      }
+      .result::before {
+        content: "";
+        position: absolute;
+        right: -50px;
+        top: -50px;
+        width: 190px;
+        height: 190px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.07);
+        pointer-events: none;
+      }
+      .result .head {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        opacity: 0.9;
+      }
+      .result .head svg {
+        width: 17px;
+        height: 17px;
+      }
+      .result .lbl {
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.7px;
+        font-weight: 700;
+      }
+      .result .euro {
+        font-size: 3rem;
+        font-weight: 800;
+        margin: 0.1rem 0 0.35rem;
+        line-height: 1.02;
+        letter-spacing: -1px;
+      }
+      .result .euro small {
+        font-size: 1rem;
+        font-weight: 600;
+        opacity: 0.8;
+        letter-spacing: 0;
+        margin-left: 0.3rem;
+      }
+      .result .meta {
+        font-size: 0.9rem;
+        opacity: 0.92;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        flex-wrap: wrap;
+      }
+      .result .meta svg {
+        width: 15px;
+        height: 15px;
+        flex: none;
+      }
+      .chips {
+        display: flex;
+        gap: 0.45rem;
+        flex-wrap: wrap;
+        margin: 0 0 0.7rem;
+      }
+      .chip {
+        background: rgba(255, 255, 255, 0.16);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        padding: 0.24rem 0.65rem;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 600;
+      }
+      .substeps {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.7rem;
+        margin-top: 1.15rem;
+        position: relative;
+      }
+      @media (max-width: 520px) {
+        .substeps {
+          grid-template-columns: 1fr;
+        }
+      }
+      .substep {
+        background: rgba(255, 255, 255, 0.13);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 11px;
+        padding: 0.85rem 0.95rem;
+      }
+      .substep .stp-head {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        font-weight: 700;
+        opacity: 0.92;
+        margin-bottom: 0.4rem;
+      }
+      .substep .stp-head svg {
+        width: 15px;
+        height: 15px;
+        flex: none;
+      }
+      .substep .v {
+        font-size: 1.55rem;
+        font-weight: 800;
+        line-height: 1.05;
+      }
+      .substep .meta {
+        font-size: 0.82rem;
+        opacity: 0.92;
+        margin-top: 0.2rem;
+        display: block;
+      }
+      .note-frozen {
+        font-size: 0.82rem;
+        opacity: 0.9;
+        margin-top: 0.6rem;
+      }
+
+      /* ---- Vue carrière : escalier des familles + grille barémique alignés ---- */
+      .refscroll {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 0.75rem;
+      }
+      .card-header h2 {
+        margin: 0;
+      }
+      .filter {
+        display: inline-flex;
+        gap: 0.3rem;
+        background: #eef2f3;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 0.25rem;
+        flex-shrink: 0;
+      }
+      .filter label {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        cursor: pointer;
+        padding: 0.4rem 0.9rem;
+        border-radius: 999px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--muted);
+        text-transform: none;
+        letter-spacing: 0;
+        margin: 0;
+        user-select: none;
+      }
+      .filter input {
+        display: none;
+      }
+      .filter label:has(input:checked) {
+        background: var(--teal);
+        color: #fff;
+      }
+      .filter label:has(input:checked) input {
+        accent-color: #fff;
+      }
+      @media (max-width: 768px) {
+        .card-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .card-header .filter {
+          order: -1;
+        }
+      }
+      .refinner {
+        display: flex;
+        flex-direction: column;
+      }
+      .grid {
+        display: grid;
+        gap: 0;
+        width: 100%;
+      }
+      /* escalier des familles */
+      .stair .scell {
+        border: 1px solid;
+        font-size: 0.78rem;
+        text-align: center;
+        padding: 0.3rem 0.2rem;
+        white-space: nowrap;
+        line-height: 1.2;
+      }
+      .scell.admin {
+        background: var(--fam-admin-bg);
+        border-color: var(--fam-admin-bd);
+        color: var(--fam-admin-tx);
+      }
+      .scell.it {
+        background: var(--fam-it-bg);
+        border-color: var(--fam-it-bd);
+        color: var(--fam-it-tx);
+      }
+      .scell.lbl {
+        font-weight: 800;
+      }
+      .scell.tip {
+        cursor: help;
+        text-decoration: underline dotted;
+        text-underline-offset: 2px;
+      }
+      .scell.tip sup {
+        font-size: 0.7em;
+        margin-left: 1px;
+      }
+      .scell.tip:focus-visible {
+        outline: 2px solid var(--teal-dark);
+        outline-offset: 1px;
+      }
+      /* bulle d'aide instantanée, ancrée sur body */
+      #tiptip {
+        position: absolute;
+        z-index: 2000;
+        transform: translateX(-50%);
+        background: var(--teal-dark);
+        color: #fff;
+        padding: 0.5rem 0.75rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        line-height: 1.3;
+        max-width: 260px;
+        text-align: center;
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3);
+        pointer-events: none;
+        opacity: 0;
+        visibility: hidden;
+      }
+      #tiptip.on {
+        opacity: 1;
+        visibility: visible;
+      }
+      #tiptip::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 7px solid transparent;
+        border-top-color: var(--teal-dark);
+        top: 100%;
+      }
+      #tiptip.below::after {
+        top: auto;
+        bottom: 100%;
+        border-top-color: transparent;
+        border-bottom-color: var(--teal-dark);
+      }
+      .sep {
+        border-left: 3px solid var(--anthracite) !important;
+      }
+      .bcell.met {
+        text-align: center;
+        font-weight: 700;
+        color: #fff;
+        font-size: 0.9rem;
+        letter-spacing: 0.3px;
+      }
+      .bcell.met.admin {
+        background: var(--fam-admin-tx);
+      }
+      .bcell.met.it {
+        background: var(--fam-it-tx);
+      }
+      .scell .yr-sub {
+        font-weight: 400;
+        opacity: 0.75;
+        font-size: 0.68rem;
+      }
+      /* grille barémique */
+      .bcell {
+        border: 1px solid var(--line);
+        padding: 0.32rem 0.45rem;
+        text-align: right;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        background: #fff;
+      }
+      .bcell.gut {
+        text-align: center;
+        background: #eef2f3;
+        font-weight: 700;
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+      .bcell.dip {
+        background: var(--anthracite);
+        color: #fff;
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.82rem;
+      }
+      .bcell.gh {
+        background: #37454f;
+        color: #fff;
+        text-align: center;
+        font-weight: 600;
+        font-size: 0.72rem;
+        line-height: 1.15;
+        white-space: normal;
+        overflow-wrap: anywhere;
+      }
+      .bcell.gh small {
+        font-weight: 400;
+        opacity: 0.85;
+      }
+      .bcell.empty {
+        background: #f0f2f3;
+        color: #c2cacd;
+      }
+      .bcell.even {
+        background: #fafbfb;
+      }
+
+      /* ---- Vue unifiée intercroisée (fusion par barème) ---- */
+      .ucell {
+        border: 1px solid var(--line);
+        padding: 0.34rem 0.45rem;
+        text-align: right;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        background: #fff;
+      }
+      .ucell.gut {
+        text-align: center;
+        background: #eef2f3;
+        font-weight: 700;
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+      .ucell.empty {
+        color: #c8d0d3 !important;
+      }
+      .col-admin {
+        background: #fdf3ec;
+      }
+      .col-it {
+        background: #e7eef7;
+      }
+      .col-both {
+        background: #e6f4ec;
+      }
+      .col-admin.empty {
+        background: #f6ece4;
+      }
+      .col-it.empty {
+        background: #dbe5f1;
+      }
+      .col-both.empty {
+        background: #daeee2;
+      }
+      .uh {
+        border: 1px solid var(--line);
+        padding: 0.4rem 0.3rem;
+        text-align: center;
+        line-height: 1.2;
+      }
+      .uh .b {
+        font-weight: 700;
+        font-size: 0.74rem;
+        opacity: 0.9;
+      }
+      .uh .g {
+        font-size: 0.8rem;
+        font-weight: 800;
+        margin: 0 0 0.1rem;
+      }
+      .uh .f {
+        font-size: 0.66rem;
+        font-weight: 400;
+        opacity: 0.85;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        margin-top: 0.1rem;
+      }
+      .uh.admin {
+        background: #fed4b7;
+        color: #7a3e12;
+        border-color: #dd9b6f;
+      }
+      .uh.it {
+        background: #9bb8d6;
+        color: #16334d;
+        border-color: #7596ba;
+      }
+      .uh.both {
+        background: #a9d8ba;
+        color: #16432a;
+        border-color: #7cbf94;
+      }
+
+      .legend {
+        font-size: 0.83rem;
+        color: var(--muted);
+        margin-top: 0.8rem;
+      }
+      .legend .sw {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border-radius: 3px;
+        vertical-align: -2px;
+        margin-right: 0.3rem;
+        border: 1px solid;
+      }
+      .legend .sw.admin {
+        background: var(--fam-admin-bg);
+        border-color: var(--fam-admin-bd);
+      }
+      .legend .sw.it {
+        background: var(--fam-it-bg);
+        border-color: var(--fam-it-bd);
+      }
+      .legend .sw.both {
+        background: linear-gradient(
+          135deg,
+          var(--fam-admin-bg) 50%,
+          var(--fam-it-bg) 50%
+        );
+        border-color: #9b88c4;
+      }
+      .legend .sw.itcol {
+        background: #9bb8d6;
+        border-color: #7596ba;
+      }
+      .legend .sw.bothcol {
+        background: #a9d8ba;
+        border-color: #7cbf94;
+      }
+
+      /* ---- Mise en évidence simulateur dans le tableau ---- */
+      .uh.sim-current {
+        outline: 3px solid #f59e0b;
+        outline-offset: -3px;
+        position: relative;
+        z-index: 1;
+      }
+      .ucell.sim-current {
+        background: #fef08a !important;
+        color: var(--anthracite) !important;
+        font-weight: 800 !important;
+        box-shadow: inset 0 0 0 2px #f59e0b;
+        position: relative;
+        z-index: 1;
+      }
+      .uh.sim-next {
+        outline: 2px solid #10b981;
+        outline-offset: -2px;
+      }
+      .ucell.sim-next {
+        background: #d1fae5 !important;
+        font-weight: 700 !important;
+        box-shadow: inset 0 0 0 2px #10b981;
+        position: relative;
+        z-index: 1;
+      }
+      .uh.sim-path {
+        outline: 2px dashed rgba(245, 158, 11, 0.45);
+        outline-offset: -2px;
+      }
+      .ucell.sim-path {
+        background: rgba(254, 243, 199, 0.55) !important;
+      }
+      .col-it.ucell.sim-path {
+        background: rgba(219, 234, 254, 0.65) !important;
+      }
+      .col-both.ucell.sim-path {
+        background: rgba(209, 250, 229, 0.55) !important;
+      }
+
+      /* ---- Collapse d'information sur les familles ---- */
+      .info-content {
+        padding-top: 0.3rem;
+        font-size: 0.9rem;
+      }
+      .info-content p {
+        margin: 0 0 0.9rem;
+      }
+      .info-content h3 {
+        font-size: 0.95rem;
+        margin: 1.3rem 0 0.5rem;
+        color: var(--teal-dark);
+        border-left: 3px solid var(--teal);
+        padding-left: 0.5rem;
+      }
+      .info-content h3:first-of-type {
+        margin-top: 0.4rem;
+      }
+      .info-scroll {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .info-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0.3rem 0 0.4rem;
+        font-size: 0.85rem;
+        table-layout: fixed;
+      }
+      .info-table th.v,
+      .info-table td.v {
+        width: 9rem;
+      }
+      .info-table th:nth-child(2),
+      .info-table td:nth-child(2) {
+        width: 13rem;
+      }
+      .info-table th,
+      .info-table td {
+        border: 1px solid var(--line);
+        padding: 0.42rem 0.6rem;
+        text-align: left;
+        vertical-align: top;
+      }
+      .info-table thead th {
+        background: #eef2f3;
+        color: var(--muted);
+        font-weight: 700;
+      }
+      .info-table thead th small {
+        font-weight: 400;
+        opacity: 0.8;
+      }
+      .info-table td.v,
+      .info-table th.v {
+        text-align: center;
+        font-weight: 800;
+        color: var(--teal-dark);
+        white-space: nowrap;
+      }
+      .info-table td.b {
+        text-align: center;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .info-table .grp th {
+        background: var(--anthracite);
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        font-size: 0.78rem;
+      }
+      .fam-table th:nth-child(1),
+      .fam-table td:nth-child(1) {
+        width: 5rem;
+      }
+      .fam-table th:nth-child(2),
+      .fam-table td:nth-child(2) {
+        width: 8rem;
+      }
+      .fam-table th:nth-child(3),
+      .fam-table td:nth-child(3) {
+        width: 8.5rem;
+      }
+      .info-note {
+        font-size: 0.82rem;
+        color: var(--muted);
+        margin: 0.3rem 0 0.9rem;
+      }
+      .info-eg {
+        background: #eef7f1;
+        border: 1px solid #bfe2cd;
+        border-radius: 8px;
+        padding: 0.6rem 0.8rem;
+        font-size: 0.85rem;
+        margin: 0.4rem 0 0.2rem;
+      }
+
+      h2 {
+        font-size: 1.05rem;
+        margin: 0.2rem 0 1rem;
+        border-left: 4px solid var(--teal);
+        padding-left: 0.6rem;
+      }
+      footer {
+        color: var(--muted);
+        font-size: 0.78rem;
+        text-align: center;
+        padding: 2rem 1rem 3rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="wrap">
+        <div class="brand">
+          <span class="logo-box"
+            ><img src="logo.png" alt="CNE-CSC — L'avenir a son syndicat"
+          /></span>
+          <div>
+            <h1>Barèmes — vue synthétique pour les affiliés</h1>
+            <p>
+              Agents administratifs &amp; informaticiens · brut mensuel indexé
+              (coeff. 2,1647)
+            </p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <div class="disclaimer">
+        <strong>Document indicatif.</strong> Les montants reproduisent le barème
+        officiel (brut mensuel indexé au coefficient 2,1647). En cas de
+        divergence,
+        <strong>le barème légal et votre fiche de paie font foi</strong>. Aucune
+        donnée saisie ici n'est enregistrée ni transmise : tout est calculé dans
+        votre navigateur.
+      </div>
+
+      <!-- ============ SIMULATEUR (collapse) ============ -->
+      <details class="collapse simbox">
+        <summary>
+          Simuler ma situation — salaire actuel &amp; prochain avancement
+        </summary>
+        <div class="simform">
+          <div class="field">
+            <label for="simFam">Ma famille de valorisation</label>
+            <select id="simFam"></select>
+          </div>
+          <div class="field">
+            <label for="simGrade">Mon grade / barème actuel</label>
+            <select id="simGrade"></select>
+          </div>
+          <div class="field">
+            <label for="simSince"
+              >Depuis combien d'années à ce barème&nbsp;?</label
+            >
+            <input
+              type="number"
+              id="simSince"
+              min="0"
+              max="40"
+              value="0"
+              inputmode="numeric"
+            />
+          </div>
+          <div class="field">
+            <label for="simAnc"
+              >Mon ancienneté pécuniaire totale (années)</label
+            >
+            <div class="anc-row">
+              <input
+                type="range"
+                id="simAnc"
+                min="0"
+                max="40"
+                value="0"
+                step="1"
+              />
+              <span class="anc-val" id="simAncVal">0</span>
+            </div>
+          </div>
+        </div>
+        <p class="hint">
+          « Depuis … à ce barème » sert à calculer la
+          <strong>prochaine promotion</strong> ; l'ancienneté pécuniaire totale
+          détermine le <strong>montant du salaire</strong> et l'échelon.
+        </p>
+        <div class="result" id="simResult"></div>
+      </details>
+
+      <!-- ============ INFO FAMILLES (collapse) ============ -->
+      <details class="collapse infobox">
+        <summary>Comprendre les familles de valorisation</summary>
+        <div class="info-content">
+          <p>
+            Depuis la réforme du statut (PATGS), chaque fonction est rattachée à
+            une <strong>famille de valorisation</strong>. Une famille définit un
+            <strong>barème d'entrée</strong> (à l'engagement), éventuellement
+            des barèmes intermédiaires, et un
+            <strong>barème maximal</strong> (cible), ainsi que les
+            <strong>délais d'avancement</strong> entre ces niveaux. L'<strong
+              >avancement</strong
+            >
+            est désormais le mode normal de progression : prévisible, accordé
+            sous conditions (ancienneté minimale + bilan positif),
+            <strong>sans mise en concurrence</strong>. La
+            <strong>promotion</strong>, elle, est l'accès à une famille
+            supérieure via un <strong>changement de fonction</strong>.
+          </p>
+
+          <h3>La fonction-type et ses trois critères</h3>
+          <p>
+            Une famille découle de la <strong>« fonction-type »</strong>, une
+            abstraction RH (elle ne décrit pas un métier précis) classée selon
+            trois critères. L'application suit une logique
+            <strong>pyramidale</strong> : la valeur «&nbsp;1&nbsp;» est la plus
+            fréquente, les valeurs élevées sont rares.
+          </p>
+
+          <div class="info-scroll">
+            <table class="info-table">
+              <thead>
+                <tr>
+                  <th class="v">Niveau</th>
+                  <th>Intitulé</th>
+                  <th>Diplôme requis</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="v">1</td>
+                  <td>Chargé·e de mission</td>
+                  <td>Universitaire (ou équivalent)</td>
+                </tr>
+                <tr>
+                  <td class="v">2</td>
+                  <td>Assistant·e</td>
+                  <td>Bachelier ou CESS (ou équivalent)</td>
+                </tr>
+                <tr>
+                  <td class="v">3</td>
+                  <td>Agent·e de support</td>
+                  <td>Accessible sans diplôme</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="info-scroll">
+            <table class="info-table">
+              <thead>
+                <tr>
+                  <th class="v">Spécialisation</th>
+                  <th>Intitulé</th>
+                  <th>Champ d'application</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="v">1</td>
+                  <td>—</td>
+                  <td>Valeur par défaut de la majorité des fonctions</td>
+                </tr>
+                <tr>
+                  <td class="v">2</td>
+                  <td>Spécialisé·e</td>
+                  <td>
+                    Complexité, résolution de problèmes ou exposition la
+                    distinguent d'une fonction comparable de valeur 1
+                  </td>
+                </tr>
+                <tr>
+                  <td class="v">3</td>
+                  <td>Expert·e</td>
+                  <td>
+                    Expérience utile préalable <strong>≥ 4 ans</strong> et/ou
+                    complexité supérieure à une fonction de valeur 2
+                  </td>
+                </tr>
+                <tr>
+                  <td class="v">4</td>
+                  <td>Expert·e avancé·e</td>
+                  <td>
+                    Expérience utile préalable <strong>≥ 8 ans</strong> et/ou
+                    complexité supérieure à une fonction de valeur 3
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="info-scroll">
+            <table class="info-table">
+              <thead>
+                <tr>
+                  <th class="v">Coordination</th>
+                  <th>Intitulé</th>
+                  <th>Champ d'application</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="v">1</td>
+                  <td>—</td>
+                  <td>
+                    Aucune charge de coordination, ou responsabilité d'équipe
+                    limitée (&lt; 2 ETP) en tant que SH/RO
+                  </td>
+                </tr>
+                <tr>
+                  <td class="v">2</td>
+                  <td>Coordinateur·rice</td>
+                  <td>
+                    Responsabilité d'équipe (SH/RO), coordination transversale
+                    ou d'un/plusieurs projet(s) institutionnel(s)
+                  </td>
+                </tr>
+                <tr>
+                  <td class="v">3</td>
+                  <td>Management intermédiaire</td>
+                  <td>
+                    Coordination plus large (nombre d'ETP, chaînes hiérarchiques
+                    dépendantes, complexité des fonctions coordonnées…)
+                  </td>
+                </tr>
+                <tr>
+                  <td class="v">4</td>
+                  <td>Management de direction</td>
+                  <td>Même analyse qu'en valeur 3, à un niveau supérieur</td>
+                </tr>
+                <tr>
+                  <td class="v">5</td>
+                  <td>Directeur·rice d'administration</td>
+                  <td>
+                    Direction d'un département de l'administration générale ou
+                    d'une administration facultaire (un seul titulaire par
+                    entité)
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="info-eg">
+            <strong>Exemple de lecture :</strong> Niveau 2 + Spécialisation 3 +
+            Coordination 2 → fonction-type «&nbsp;<strong
+              >Assistant expert – coordinateur</strong
+            >&nbsp;». SH = supérieur hiérarchique, RO = responsable
+            opérationnel, ETP = équivalent temps plein.
+          </div>
+
+          <h3>Les familles : barème d'entrée → barème maximal</h3>
+          <div class="info-scroll">
+            <table class="info-table fam-table">
+              <thead>
+                <tr>
+                  <th>Famille</th>
+                  <th class="v">Barème d'entrée</th>
+                  <th class="v">Barème maximal</th>
+                  <th class="v">Niveau</th>
+                  <th class="v">S/C</th>
+                  <th>Exemples de fonctions-types</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="grp">
+                  <th colspan="6">
+                    PATG — administratif, technique, de gestion
+                  </th>
+                </tr>
+                <tr>
+                  <td class="v">AA</td>
+                  <td class="b">selon diplôme</td>
+                  <td class="b">23/1</td>
+                  <td class="v">3</td>
+                  <td class="v">2</td>
+                  <td>
+                    Magasinier·ère · Manutentionnaire · Personnel d'animalerie
+                  </td>
+                </tr>
+                <tr>
+                  <td class="v">A</td>
+                  <td class="b">selon diplôme</td>
+                  <td class="b">24/1</td>
+                  <td class="v">2 ou 3</td>
+                  <td class="v">2 ou 3</td>
+                  <td>
+                    Comptable · Gestionnaire administratif·ve · Secrétaire ·
+                    Technicien·ne de laboratoire
+                  </td>
+                </tr>
+                <tr>
+                  <td class="v">B<sup>*</sup></td>
+                  <td class="b">22/4</td>
+                  <td class="b">25/1</td>
+                  <td class="v">2 ou 3</td>
+                  <td class="v">3 ou 4</td>
+                  <td>
+                    Comptable spécialisé·e · Technicien·ne spécialisé·e ·
+                    Secrétaire de direction · Responsable d'atelier
+                  </td>
+                </tr>
+                <tr>
+                  <td class="v">B2</td>
+                  <td class="b">23/1</td>
+                  <td class="b">25/6</td>
+                  <td class="v">2</td>
+                  <td class="v">4</td>
+                  <td>
+                    Gestionnaire expert·e · Technicien·ne expert·e de
+                    laboratoire
+                  </td>
+                </tr>
+                <tr>
+                  <td class="v">C</td>
+                  <td class="b">24/1</td>
+                  <td class="b">11/3</td>
+                  <td class="v">2</td>
+                  <td class="v">5</td>
+                  <td>
+                    Responsable d'équipe (administrative, laboratoire,
+                    technique)
+                  </td>
+                </tr>
+                <tr>
+                  <td class="v">D</td>
+                  <td class="b">10/1</td>
+                  <td class="b">11/3</td>
+                  <td class="v">1</td>
+                  <td class="v">2</td>
+                  <td>
+                    Chargé·e de mission · Juriste · Conseiller·ère pédagogique ·
+                    Architecte
+                  </td>
+                </tr>
+                <tr>
+                  <td class="v">E</td>
+                  <td class="b">10/1</td>
+                  <td class="b">12/1</td>
+                  <td class="v">1</td>
+                  <td class="v">3</td>
+                  <td>
+                    Chargé·e de mission spécialisé·e · Juriste spécialisé·e ·
+                    Conseiller·ère pédagogique spécialisé·e
+                  </td>
+                </tr>
+                <tr>
+                  <td class="v">F</td>
+                  <td class="b">11/3</td>
+                  <td class="b">12/1</td>
+                  <td class="v">1</td>
+                  <td class="v">4</td>
+                  <td>
+                    Chargé·e de mission expert·e · Juriste expert·e ·
+                    Conseiller·ère scientifique expert·e
+                  </td>
+                </tr>
+                <tr>
+                  <td class="v">G</td>
+                  <td class="b">12/1</td>
+                  <td class="b">13/2</td>
+                  <td class="v">1</td>
+                  <td class="v">5</td>
+                  <td>
+                    Chargé·e de mission expert·e avancé·e · Conseiller·ère
+                    scientifique expert·e avancé·e
+                  </td>
+                </tr>
+                <tr>
+                  <td class="v">H</td>
+                  <td class="b">13/2</td>
+                  <td class="b">14/1</td>
+                  <td class="v">1</td>
+                  <td class="v">6</td>
+                  <td>
+                    Responsable d'équipe (administration générale,
+                    sociale/médicale, technique)
+                  </td>
+                </tr>
+                <tr>
+                  <td class="v">I</td>
+                  <td class="b">13/2</td>
+                  <td class="b">14/1</td>
+                  <td class="v">1</td>
+                  <td class="v">7</td>
+                  <td>
+                    Responsable d'équipe (administration générale, technique)
+                  </td>
+                </tr>
+                <tr class="grp">
+                  <th colspan="6">
+                    Informatique (échelle barémique distincte)
+                  </th>
+                </tr>
+                <tr>
+                  <td class="v">INFO1</td>
+                  <td class="b">23/1</td>
+                  <td class="b">24/3</td>
+                  <td class="v">2</td>
+                  <td class="v">2</td>
+                  <td>Support IT</td>
+                </tr>
+                <tr>
+                  <td class="v">INFO2</td>
+                  <td class="b">23/1</td>
+                  <td class="b">25/3A</td>
+                  <td class="v">2</td>
+                  <td class="v">3</td>
+                  <td>Développeur·euse</td>
+                </tr>
+                <tr>
+                  <td class="v">INFO2B</td>
+                  <td class="b">24/3</td>
+                  <td class="b">25/3A</td>
+                  <td class="v">2</td>
+                  <td class="v">5</td>
+                  <td>Chef·fe programmeur·euse → Analyste de programmation</td>
+                </tr>
+                <tr>
+                  <td class="v">INFO2C</td>
+                  <td class="b">24/3</td>
+                  <td class="b">12/2</td>
+                  <td class="v">2</td>
+                  <td class="v">6</td>
+                  <td>Chef·fe programmeur·euse → Informaticien·ne</td>
+                </tr>
+                <tr>
+                  <td class="v">INFO3</td>
+                  <td class="b">12/1</td>
+                  <td class="b">12/2</td>
+                  <td class="v">1</td>
+                  <td class="v">2</td>
+                  <td>Informaticien·ne</td>
+                </tr>
+                <tr>
+                  <td class="v">INFO4</td>
+                  <td class="b">12/2</td>
+                  <td class="b">13/3</td>
+                  <td class="v">1</td>
+                  <td class="v">6</td>
+                  <td>Informaticien·ne responsable d'équipe</td>
+                </tr>
+                <tr>
+                  <td class="v">INFO5</td>
+                  <td class="b">13/3</td>
+                  <td class="b">14/3</td>
+                  <td class="v">1</td>
+                  <td class="v">7</td>
+                  <td>
+                    Informaticien·ne responsable d'équipe / directeur·rice
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p class="info-note">
+            <strong>À retenir.</strong> Famille C : accès aux barèmes de niveau
+            1 via une épreuve d'accession, la fonction restant de niveau 2.
+            Familles E et F : même cible (12/1), mais F avance plus vite que E.
+            Sans diplôme IT : INFO1/INFO2 → 5 ans en famille A selon diplôme,
+            INFO3 → 3 ans en 1A1 puis 2 ans en 1A2.
+          </p>
+          <p class="info-note">
+            <strong>Niveau</strong> = niveau de diplôme requis (1 :
+            universitaire · 2 : bachelier ou CESS · 3 : sans diplôme).
+            <strong>S/C</strong> = total des points cumulés de
+            <strong>spécialisation</strong> et de
+            <strong>coordination</strong> requis par la fonction-type : à niveau
+            égal, un S/C plus élevé traduit une fonction plus spécialisée et/ou
+            comportant davantage de coordination. <strong>*</strong> Les
+            familles A et B existent en niveau 2 ou 3 selon le diplôme, avec un
+            S/C respectivement de 2 ou 3 (famille A) et 3 ou 4 (famille B).
+          </p>
+          <p class="info-note">
+            Les barèmes 15/1 et 16/1 sont réservés au personnel de direction
+            (processus distinct, hors de ce dispositif d'avancement). D'après la
+            réforme « Avancements et promotions PATGS » (GPS-DTAS), adoptée et
+            en vigueur depuis le 1ᵉʳ janvier 2026. Document informatif : votre
+            fiche de paie et le statut font foi.
+          </p>
+        </div>
+      </details>
+
+      <!-- ============ CARRIÈRE & BARÈMES ============ -->
+      <div class="card">
+        <div class="card-header">
+          <h2>Vue unifiée — familles &amp; barèmes alignés</h2>
+          <div
+            class="filter"
+            role="radiogroup"
+            aria-label="Filtrer l'affichage"
+          >
+            <label
+              ><input type="radio" name="famfilter" value="all" checked />
+              Afficher tout</label
+            >
+            <label
+              ><input type="radio" name="famfilter" value="admin" />
+              Administratif</label
+            >
+            <label
+              ><input type="radio" name="famfilter" value="it" />
+              Informatique</label
+            >
+          </div>
+        </div>
+        <div class="refscroll">
+          <div class="refinner" id="careerHost"></div>
+        </div>
+        <p class="legend">
+          Tableau unique : ossature administrative avec les grades
+          informaticiens <strong>insérés à leur niveau barémique</strong> ; les
+          deux barèmes communs sont fusionnés (<strong>2G5 = S30</strong> en
+          23/1, <strong>1A3 = S33</strong> en 12/1). En haut, les
+          <strong>familles de valorisation</strong> alignées sur les colonnes —
+          une barre traverse les colonnes de son parcours (les nombres = années
+          avant le grade suivant) : <span class="sw admin"></span>familles
+          administratives, <span class="sw it"></span>familles informaticiens.
+          Colonnes : <span class="sw admin"></span>administratif &nbsp;<span
+            class="sw itcol"
+          ></span
+          >informaticien &nbsp;<span class="sw bothcol"></span>commun.
+          Engagement sans diplôme IT : INFO1/INFO2 → 5 ans en famille A, INFO3 →
+          5 ans en famille D.
+        </p>
+      </div>
+    </main>
+
+    <footer>
+      Outil informatif réalisé pour les affiliés · données issues du barème
+      officiel · dernière mise à jour des montants : mai 2026.
+    </footer>
+
+    <script>
+      /* ===========================================================================
+   DONNÉES — tout se met à jour ici.
+   steps = { ancienneté : montant_brut_mensuel_indexé }.
+   =========================================================================== */
+      const INDEX_COEFF = "2,1647";
+
+      const DATA = {
+        admin: {
+          label: "Agent administratif",
+          grades: [
+            {
+              code: "2G2",
+              bareme: "300/1",
+              diplome: "CEB",
+              fonction: "Agent qualifié",
+              steps: {
+                0: 2412.63,
+                1: 2439.74,
+                2: 2493.94,
+                5: 2540.9,
+                7: 2587.88,
+                9: 2634.86,
+                11: 2681.83,
+                13: 2728.8,
+                15: 2775.77,
+                17: 2822.75,
+                19: 2869.71,
+                21: 2916.69,
+                23: 2963.66,
+                25: 3010.63,
+                27: 3057.6,
+                29: 3104.58,
+              },
+            },
+            {
+              code: "2G3",
+              bareme: "20/2X",
+              diplome: "CESS",
+              fonction: "Agent spécialisé",
+              steps: {
+                0: 2565.48,
+                1: 2612.82,
+                2: 2707.49,
+                5: 2753.12,
+                7: 2798.75,
+                9: 2909.18,
+                11: 3019.6,
+                13: 3130.02,
+                15: 3240.46,
+                17: 3350.87,
+                19: 3461.31,
+                21: 3572.19,
+                23: 3684.79,
+                25: 3797.41,
+                27: 3910.01,
+                29: 4022.63,
+              },
+            },
+            {
+              code: "2G4",
+              bareme: "22/4",
+              diplome: "Bachelier",
+              fonction: "1er agent spécialisé",
+              steps: {
+                0: 2895.99,
+                1: 2943.33,
+                2: 3038.02,
+                5: 3085.36,
+                7: 3148.45,
+                9: 3274.63,
+                11: 3400.82,
+                13: 3511.25,
+                15: 3623.13,
+                17: 3735.73,
+                19: 3848.35,
+                21: 3960.97,
+                23: 4073.57,
+                25: 4186.19,
+                27: 4315.55,
+                29: 4411.41,
+              },
+            },
+            {
+              code: "2G5",
+              bareme: "23/1",
+              diplome: "Bachelier",
+              fonction: "1er agent spécialisé principal",
+              steps: {
+                0: 3093.18,
+                1: 3140.52,
+                2: 3235.2,
+                5: 3282.54,
+                7: 3345.64,
+                9: 3471.82,
+                11: 3598.99,
+                13: 3711.61,
+                15: 3824.21,
+                17: 3936.83,
+                19: 4049.45,
+                21: 4162.05,
+                23: 4274.67,
+                25: 4387.27,
+                27: 4499.89,
+                29: 4612.49,
+              },
+            },
+            {
+              code: "2G6",
+              bareme: "24/1",
+              diplome: "Bachelier",
+              fonction: "Agent spécialisé en chef",
+              steps: {
+                0: 3329.8,
+                1: 3377.14,
+                2: 3424.48,
+                3: 3471.82,
+                5: 3519.15,
+                7: 3582.93,
+                9: 3711.62,
+                11: 3840.3,
+                13: 3952.92,
+                15: 4065.53,
+                17: 4178.14,
+                19: 4290.75,
+                21: 4403.36,
+                23: 4515.98,
+                25: 4628.58,
+                27: 4741.2,
+                29: 4853.8,
+                31: 4966.42,
+              },
+            },
+            {
+              code: "2G7",
+              bareme: "25/1",
+              diplome: "Bachelier",
+              fonction: "1er agent spécialisé en chef",
+              steps: {
+                0: 3719.59,
+                1: 3767.87,
+                2: 3816.14,
+                3: 3864.42,
+                5: 3912.7,
+                7: 3977.06,
+                9: 4105.73,
+                11: 4234.42,
+                13: 4347.04,
+                15: 4459.65,
+                17: 4572.26,
+                19: 4684.87,
+                21: 4797.48,
+                23: 4910.09,
+                25: 5022.71,
+                27: 5135.32,
+                29: 5247.93,
+                31: 5360.54,
+              },
+            },
+            {
+              code: "2G8",
+              bareme: "25/6",
+              diplome: "Bachelier",
+              fonction: "1er agent spécialisé",
+              steps: {
+                0: 3864.4,
+                1: 3960.92,
+                2: 4057.45,
+                3: 4153.98,
+                5: 4282.68,
+                7: 4411.35,
+                9: 4540.05,
+                11: 4668.74,
+                13: 4797.45,
+                15: 4926.12,
+                17: 5054.81,
+                19: 5183.49,
+                21: 5312.18,
+                23: 5440.87,
+                25: 5569.57,
+                27: 5698.26,
+              },
+            },
+            {
+              code: "1A1",
+              bareme: "10/1",
+              diplome: "Master",
+              fonction: "Attaché",
+              steps: {
+                0: 3848.29,
+                1: 3960.9,
+                2: 4186.13,
+                5: 4359.07,
+                7: 4532.01,
+                9: 4704.96,
+                11: 4877.9,
+                13: 5050.84,
+                15: 5223.79,
+                17: 5396.73,
+                19: 5569.67,
+                21: 5742.62,
+                23: 5915.56,
+              },
+            },
+            {
+              code: "1A2",
+              bareme: "11/3",
+              diplome: "Master",
+              fonction: "Attaché principal",
+              steps: {
+                0: 4170.03,
+                1: 4282.64,
+                2: 4395.26,
+                3: 4507.87,
+                5: 4680.81,
+                7: 4853.76,
+                9: 5026.7,
+                11: 5199.64,
+                13: 5372.59,
+                15: 5545.53,
+                17: 5718.47,
+                19: 5891.42,
+                21: 6064.36,
+                23: 6237.3,
+                25: 6410.25,
+              },
+            },
+            {
+              code: "1A3",
+              bareme: "12/1",
+              diplome: "Master",
+              fonction: "Premier attaché",
+              steps: {
+                0: 4733.07,
+                1: 4845.68,
+                2: 5070.91,
+                5: 5243.85,
+                7: 5416.8,
+                9: 5589.74,
+                11: 5762.68,
+                13: 5935.63,
+                15: 6108.57,
+                17: 6281.51,
+                19: 6454.46,
+                21: 6627.4,
+                23: 6800.34,
+                25: 6973.29,
+              },
+            },
+            {
+              code: "1C4",
+              bareme: "13/2",
+              diplome: "Master",
+              fonction: "Conseiller",
+              steps: {
+                0: 5119.15,
+                2: 5360.46,
+                4: 5601.78,
+                6: 5843.09,
+                8: 6084.41,
+                10: 6325.72,
+                12: 6567.04,
+                14: 6808.36,
+                16: 7049.67,
+                18: 7290.99,
+                20: 7532.3,
+                22: 7773.62,
+              },
+            },
+            {
+              code: "1C5",
+              bareme: "14/1",
+              diplome: "Master",
+              fonction: "Premier conseiller",
+              steps: {
+                0: 5537.4,
+                2: 5778.72,
+                4: 6020.03,
+                6: 6261.35,
+                8: 6502.67,
+                10: 6743.98,
+                12: 6985.3,
+                14: 7226.61,
+                16: 7467.93,
+                18: 7709.24,
+                20: 7950.56,
+                22: 8191.87,
+                24: 8433.19,
+                26: 8674.5,
+                28: 8915.82,
+              },
+            },
+          ],
+          /* familles : start = index de la colonne du libellé ; years = nb d'années par grade suivant */
+          families: [
+            {
+              name: "AA",
+              start: 0,
+              years: [6, 6, 3],
+              note: "Engagement selon diplôme",
+            },
+            {
+              name: "A",
+              start: 0,
+              years: [6, 6, 3, 6],
+              note: "Engagement selon diplôme",
+            },
+            { name: "B", start: 2, years: [3, 3, 6] },
+            { name: "B2", start: 3, years: [3, 3, 6] },
+            { name: "C", start: 4, years: [3, 3, 3, 3] },
+            { name: "D", start: 7, years: [3] },
+            { name: "E", start: 7, years: [3, 6] },
+            { name: "F", start: 8, years: [3] },
+            { name: "G", start: 9, years: [6] },
+            { name: "H", start: 10, years: [6] },
+            { name: "I", start: 10, years: [3] },
+          ],
+        },
+        it: {
+          label: "Informaticien",
+          grades: [
+            {
+              code: "S30",
+              bareme: "23/1",
+              diplome: "Bachelier",
+              fonction: "Programmeur",
+              steps: {
+                0: 3093.18,
+                1: 3140.52,
+                2: 3235.2,
+                5: 3282.54,
+                7: 3345.64,
+                9: 3471.82,
+                11: 3598.99,
+                13: 3711.61,
+                15: 3824.21,
+                17: 3936.83,
+                19: 4049.45,
+                21: 4162.05,
+                23: 4274.67,
+                25: 4387.27,
+                27: 4499.89,
+                29: 4612.49,
+              },
+            },
+            {
+              code: "S31",
+              bareme: "24/3",
+              diplome: "Bachelier",
+              fonction: "Chef programmeur",
+              steps: {
+                0: 3455.99,
+                1: 3503.33,
+                2: 3550.71,
+                3: 3598.99,
+                5: 3647.27,
+                7: 3711.62,
+                9: 3840.3,
+                11: 3968.99,
+                13: 4081.61,
+                15: 4194.21,
+                17: 4306.83,
+                19: 4419.43,
+                21: 4532.05,
+                23: 4644.67,
+                25: 4757.27,
+                27: 4869.89,
+                29: 4982.49,
+                31: 5095.11,
+              },
+            },
+            {
+              code: "S32",
+              bareme: "25/3A",
+              diplome: "Bachelier",
+              fonction: "Analyste de programmation",
+              steps: {
+                0: 4057.41,
+                1: 4105.69,
+                2: 4153.97,
+                3: 4202.25,
+                5: 4250.53,
+                7: 4314.88,
+                9: 4443.56,
+                11: 4572.25,
+                13: 4684.87,
+                15: 4797.47,
+                17: 4910.09,
+                19: 5022.69,
+                21: 5135.31,
+                23: 5247.91,
+                25: 5360.53,
+                27: 5472.55,
+                29: 5585.75,
+                31: 5698.37,
+                33: 5810.97,
+              },
+            },
+            {
+              code: "S33",
+              bareme: "12/1",
+              diplome: "Master",
+              fonction: "Informaticien",
+              steps: {
+                0: 4733.07,
+                1: 4845.68,
+                2: 5070.91,
+                5: 5243.85,
+                7: 5416.8,
+                9: 5589.74,
+                11: 5762.68,
+                13: 5935.63,
+                15: 6108.57,
+                17: 6281.51,
+                19: 6454.46,
+                21: 6627.4,
+                23: 6800.34,
+                25: 6973.29,
+              },
+            },
+            {
+              code: "S34",
+              bareme: "12/2",
+              diplome: "Master",
+              fonction: "Informaticien",
+              steps: {
+                0: 5818.93,
+                1: 5939.58,
+                2: 6060.24,
+                3: 6180.89,
+                5: 6422.2,
+                7: 6663.52,
+                9: 6904.83,
+                11: 7146.15,
+                13: 7387.46,
+                15: 7628.78,
+                17: 7870.09,
+                19: 8111.41,
+              },
+            },
+            {
+              code: "S35",
+              bareme: "13/3",
+              diplome: "Master",
+              fonction: "Informaticien-expert",
+              steps: {
+                0: 6261.32,
+                2: 6502.64,
+                4: 6743.95,
+                6: 6985.27,
+                8: 7226.58,
+                10: 7467.9,
+                12: 7709.22,
+                14: 7950.53,
+                16: 8191.85,
+                18: 8433.16,
+                20: 8674.48,
+                22: 8915.79,
+              },
+            },
+            {
+              code: "S36",
+              bareme: "14/3",
+              diplome: "Master",
+              fonction: "Informaticien directeur",
+              steps: {
+                0: 6878.01,
+                2: 7119.33,
+                4: 7360.64,
+                6: 7601.96,
+                8: 7843.27,
+                10: 8084.59,
+                12: 8325.9,
+                14: 8567.22,
+                16: 8808.53,
+                18: 9049.85,
+                20: 9291.17,
+                22: 9532.48,
+              },
+            },
+          ],
+          families: [
+            {
+              name: "INFO1",
+              start: 0,
+              years: [9],
+              preGrades: [
+                { branch: "admin", code: "2G2", dur: 5, famLabel: "famille A" },
+                { branch: "admin", code: "2G3", dur: 5, famLabel: "famille A" },
+                { branch: "admin", code: "2G4", dur: 5, famLabel: "famille A" },
+              ],
+              note: "Engagement avec diplôme IT (sinon : 5 ans en famille A selon diplôme)",
+            },
+            {
+              name: "INFO2",
+              start: 0,
+              years: [9, 6],
+              preGrades: [
+                { branch: "admin", code: "2G2", dur: 5, famLabel: "famille A" },
+                { branch: "admin", code: "2G3", dur: 5, famLabel: "famille A" },
+                { branch: "admin", code: "2G4", dur: 5, famLabel: "famille A" },
+              ],
+              note: "Engagement avec diplôme IT (sinon : 5 ans en famille A selon diplôme)",
+            },
+            { name: "INFO2B", start: 1, years: [6] },
+            { name: "INFO2C", start: 1, years: [6, 6, 5] },
+            {
+              name: "INFO3",
+              start: 3,
+              years: [5],
+              preChain: [
+                { branch: "admin", code: "1A1", dur: 3, famLabel: "famille D" },
+                { branch: "admin", code: "1A2", dur: 2, famLabel: "famille D" },
+              ],
+              note: "Engagement avec diplôme IT (sinon : 3 ans en 1A1, puis 2 ans en 1A2)",
+            },
+            { name: "INFO4", start: 4, years: [9] },
+            { name: "INFO5", start: 5, years: [6] },
+          ],
+        },
+      };
+
+      /* ===========================================================================
+   LOGIQUE
+   =========================================================================== */
+      const euro = new Intl.NumberFormat("fr-BE", {
+        style: "currency",
+        currency: "EUR",
+      });
+      const $ = (id) => document.getElementById(id);
+
+      function effective(steps, anc) {
+        const keys = Object.keys(steps)
+          .map(Number)
+          .sort((a, b) => a - b);
+        let val = steps[keys[0]],
+          at = keys[0];
+        for (const k of keys) {
+          if (k <= anc) {
+            val = steps[k];
+            at = k;
+          } else break;
+        }
+        return { val, at };
+      }
+      function nextStep(steps, anc) {
+        const keys = Object.keys(steps)
+          .map(Number)
+          .sort((a, b) => a - b);
+        for (const k of keys) {
+          if (k > anc) return { at: k, val: steps[k] };
+        }
+        return null;
+      }
+      function ceiling(steps) {
+        const keys = Object.keys(steps)
+          .map(Number)
+          .sort((a, b) => a - b);
+        const k = keys[keys.length - 1];
+        return { at: k, val: steps[k] };
+      }
+
+      /* ---- Simulateur basé sur la FAMILLE de progression ---- */
+      const BRANCH_LABEL = { admin: "Administratif", it: "Informatique" };
+
+      // chemin de carrière d'une famille : [{grade, dur}], dur = années dans ce grade (dernier = terminal)
+      // preGradeConfigs optionnel : [{branch, code, dur}] — liste de grades admin préfixant les grades IT
+      function familyPath(branchKey, fam, preGradeConfigs = []) {
+        const grades = DATA[branchKey].grades,
+          path = [];
+        for (const pgc of preGradeConfigs) {
+          const pg = DATA[pgc.branch].grades.find((g) => g.code === pgc.code);
+          if (pg) path.push({ grade: pg, dur: pgc.dur });
+        }
+        for (let i = 0; i <= fam.years.length; i++) {
+          path.push({
+            grade: grades[fam.start + i],
+            dur: i < fam.years.length ? fam.years[i] : Infinity,
+          });
+        }
+        return path;
+      }
+      function fillFamilySelect() {
+        $("simFam").innerHTML = Object.keys(BRANCH_LABEL)
+          .map((bk) => {
+            const opts = DATA[bk].families
+              .map((f, i) => {
+                const p = familyPath(bk, f);
+                const route = `${p[0].grade.code} → ${p[p.length - 1].grade.code}`;
+                return `<option value="${bk}:${i}">${f.name} — ${route}</option>`;
+              })
+              .join("");
+            return `<optgroup label="${BRANCH_LABEL[bk]}">${opts}</optgroup>`;
+          })
+          .join("");
+      }
+      // décode la valeur du select grade : 'pre:CODE' ou index numérique
+      function parseGradeVal(val) {
+        if (val && val.startsWith("pre:"))
+          return { isPre: true, code: val.slice(4), idx: 0 };
+        const n = parseInt(val, 10);
+        return { isPre: false, code: null, idx: isNaN(n) ? 0 : n };
+      }
+      // retourne le chemin effectif selon la sélection courante
+      function curPath() {
+        const [bk, fi] = $("simFam").value.split(":");
+        const fam = DATA[bk].families[+fi];
+        const { isPre, code } = parseGradeVal($("simGrade").value);
+        if (isPre) {
+          if (fam.preGrades) {
+            // alternatives : un seul pré-grade selon le diplôme
+            const pg = fam.preGrades.find((p) => p.code === code);
+            return familyPath(bk, fam, pg ? [pg] : []);
+          }
+          if (fam.preChain) {
+            // séquentiel : chemin à partir de ce grade dans la chaîne
+            const idx = fam.preChain.findIndex((p) => p.code === code);
+            return familyPath(bk, fam, idx >= 0 ? fam.preChain.slice(idx) : []);
+          }
+        }
+        return familyPath(bk, fam);
+      }
+      function fillGradeSelect() {
+        const [bk, fi] = $("simFam").value.split(":");
+        const fam = DATA[bk].families[+fi];
+        const basePath = familyPath(bk, fam);
+        let html = "";
+        const preList = fam.preGrades || fam.preChain;
+        if (preList) {
+          html += `<optgroup label="Phase préalable (sans diplôme IT)">`;
+          preList.forEach((pg, idx) => {
+            const g = DATA[pg.branch].grades.find((g) => g.code === pg.code);
+            let tag;
+            if (fam.preChain) {
+              // séquentiel : durée totale de la chaîne
+              const total = fam.preChain.reduce((s, p) => s + p.dur, 0);
+              const fl = pg.famLabel || "famille D";
+              tag = `${total} ans en ${fl}`;
+            } else {
+              tag = `${pg.dur} ans en ${pg.famLabel || "famille A"}`;
+            }
+            html += `<option value="pre:${pg.code}">${g.code} — ${g.fonction} (${tag})</option>`;
+          });
+          html += `</optgroup><optgroup label="Filière IT">`;
+        }
+        basePath.forEach((p, i) => {
+          const tag = p.dur === Infinity ? "grade final" : `${p.dur} ans`;
+          html += `<option value="${i}">${p.grade.code} — ${p.grade.fonction} (${tag})</option>`;
+        });
+        if (preList) html += `</optgroup>`;
+        $("simGrade").innerHTML = html;
+      }
+
+      // petites icônes inline (stroke = currentColor)
+      const SVG = (p) =>
+        `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+      const IC = {
+        wallet: SVG(
+          '<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><circle cx="16" cy="14" r="1.3"/>',
+        ),
+        user: SVG(
+          '<circle cx="12" cy="8" r="3.2"/><path d="M5 20a7 7 0 0 1 14 0"/>',
+        ),
+        promo: SVG(
+          '<polyline points="3 17 9 11 13 15 21 7"/><polyline points="15 7 21 7 21 13"/>',
+        ),
+        step: SVG('<path d="M4 18h4v-4h4v-4h4v-4h4"/>'),
+      };
+
+      function renderResult() {
+        const [bk, fi] = $("simFam").value.split(":");
+        const fam = DATA[bk].families[+fi];
+        const path = curPath();
+        const { isPre, idx } = parseGradeVal($("simGrade").value);
+        const gi = isPre ? 0 : Math.min(idx, path.length - 1);
+        const cur = path[gi],
+          g = cur.grade;
+        const yearsIn = parseInt($("simSince").value, 10) || 0; // depuis X ans à ce barème
+        const T = parseInt($("simAnc").value, 10) || 0; // ancienneté pécuniaire totale
+        const eff = effective(g.steps, T);
+
+        // prochaine promotion = durée du grade dans la famille − années déjà passées
+        const terminal = cur.dur === Infinity;
+        const nextGrade = terminal ? null : path[gi + 1].grade;
+        const toPromo = terminal ? null : Math.max(0, cur.dur - yearsIn);
+        const promoAnc = terminal ? null : T + toPromo; // ancienneté projetée à la promotion
+        const promoVal = terminal
+          ? null
+          : effective(nextGrade.steps, promoAnc).val;
+
+        // prochain échelon barémique (même grade), basé sur l'ancienneté totale
+        const ns = nextStep(g.steps, T);
+
+        $("simResult").innerHTML = `
+    <div class="head">${IC.wallet}<span class="lbl">Salaire actuel — brut mensuel indexé</span></div>
+    <div class="euro">${euro.format(eff.val)}<small>/ mois</small></div>
+    <div class="chips">
+      <span class="chip">${g.code}</span>
+      <span class="chip">Barème ${g.bareme}</span>
+      <span class="chip">Famille ${fam.name}</span>
+    </div>
+    <div class="meta">${IC.user}${g.fonction} · à ce barème depuis ${yearsIn} an${yearsIn > 1 ? "s" : ""}
+      · ancienneté totale ${T} an${T > 1 ? "s" : ""}</div>
+    <div class="substeps">
+      <div class="substep">
+        <div class="stp-head">${IC.promo}Prochaine promotion</div>
+        ${
+          nextGrade
+            ? `<div class="v">dans ${toPromo} an${toPromo > 1 ? "s" : ""}</div>
+             <span class="meta">vers ${nextGrade.code} — ${nextGrade.fonction}
+               → ${euro.format(promoVal)}</span>`
+            : `<div class="v">—</div><span class="meta">grade final de la famille atteint</span>`
+        }
+      </div>
+      <div class="substep">
+        <div class="stp-head">${IC.step}Prochain échelon barémique</div>
+        ${
+          ns
+            ? `<div class="v">dans ${ns.at - T} an${ns.at - T > 1 ? "s" : ""}</div>
+             <span class="meta">${euro.format(ns.val)} · +${euro.format(ns.val - eff.val)}</span>`
+            : `<div class="v">—</div><span class="meta">échelon maximum atteint</span>`
+        }
+      </div>
+    </div>`;
+        highlightSim();
+      }
+
+      /* ---- Vue UNIFIÉE (cf. document source) ----------------------------------
+   Ossature administrative ; grades IT insérés à leur niveau barémique ;
+   barèmes communs fusionnés (2G5=S30 en 23/1, 1A3=S33 en 12/1).
+   Ordre des colonnes figé sur le document. ----------------------------------- */
+      const COL_ORDER = [
+        "300/1",
+        "20/2X",
+        "22/4",
+        "23/1",
+        "24/1",
+        "24/3",
+        "25/1",
+        "25/3A",
+        "25/6",
+        "10/1",
+        "11/3",
+        "12/1",
+        "13/2",
+        "14/1",
+        "12/2",
+        "13/3",
+        "14/3",
+      ];
+
+      function buildMergedColumns() {
+        const byB = {};
+        DATA.admin.grades.forEach((g) => {
+          (byB[g.bareme] ||= {
+            bareme: g.bareme,
+            diplome: g.diplome,
+            steps: g.steps,
+          }).admin = { code: g.code, fonction: g.fonction };
+        });
+        DATA.it.grades.forEach((g) => {
+          (byB[g.bareme] ||= {
+            bareme: g.bareme,
+            diplome: g.diplome,
+            steps: g.steps,
+          }).it = { code: g.code, fonction: g.fonction };
+        });
+        return COL_ORDER.map((b) => byB[b]);
+      }
+      const colClass = (c, mode) => {
+        if (c.admin && c.it)
+          return mode === "admin" ? "admin" : mode === "it" ? "it" : "both";
+        return c.admin ? "admin" : "it";
+      };
+      const colGrade = (c, mode) => {
+        if (mode === "admin" && c.admin) return c.admin.code;
+        if (mode === "it" && c.it) return c.it.code;
+        return [c.admin && c.admin.code, c.it && c.it.code]
+          .filter(Boolean)
+          .join(" / ");
+      };
+      const colFonction = (c, mode) => {
+        if (mode === "admin" && c.admin) return c.admin.fonction;
+        if (mode === "it" && c.it) return c.it.fonction;
+        if (c.admin && c.it)
+          return c.admin.fonction === c.it.fonction
+            ? c.admin.fonction
+            : `${c.admin.fonction} / ${c.it.fonction}`;
+        return (c.admin || c.it).fonction;
+      };
+
+      /* index de colonne unifiée pour chaque code de grade */
+      function gradeColIndex(cols) {
+        const idx = {};
+        cols.forEach((c, i) => {
+          if (c.admin) idx[c.admin.code] = i;
+          if (c.it) idx[c.it.code] = i;
+        });
+        return idx;
+      }
+
+      /* escalier des familles, aligné sur les colonnes unifiées (traverse les colonnes insérées) */
+      function buildStaircase(idx, branches) {
+        let html = "",
+          row = 1;
+        branches.forEach((bk) => {
+          const cls = bk;
+          DATA[bk].families.forEach((f) => {
+            const seg = {}; // colonne unifiée -> contenu
+            const lc = idx[DATA[bk].grades[f.start].code];
+            seg[lc] = { txt: f.name, lbl: true, note: f.note };
+            f.years.forEach((yr, i) => {
+              seg[idx[DATA[bk].grades[f.start + 1 + i].code]] = {
+                txt: `${yr}<span class="yr-sub"> ans</span>`,
+              };
+            });
+            const keys = Object.keys(seg).map(Number);
+            const lo = Math.min(...keys),
+              hi = Math.max(...keys);
+            for (let c = lo; c <= hi; c++) {
+              const s = seg[c];
+              if (!s) {
+                html += `<div class="scell ${cls} fill" style="grid-row:${row};grid-column:${c + 2}"></div>`;
+                continue;
+              }
+              const tip = s.note
+                ? ` tip" tabindex="0" data-tip="${s.note}`
+                : "";
+              const star = s.note && !/\*$/.test(s.txt) ? "<sup>*</sup>" : "";
+              html += `<div class="scell ${cls}${s.lbl ? " lbl" : ""}${tip}" style="grid-row:${row};grid-column:${c + 2}">${s.txt}${star}</div>`;
+            }
+            row++;
+          });
+        });
+        return { html, rows: row - 1 };
+      }
+
+      function renderUnified(mode) {
+        mode = mode || "all";
+        const want = (c) =>
+          mode === "all" ||
+          (mode === "admin" && c.admin) ||
+          (mode === "it" && c.it);
+        const cols = buildMergedColumns().filter(want);
+        const idx = gradeColIndex(cols);
+        const N = cols.length;
+        const tmpl = `54px repeat(${N}, minmax(88px,1fr))`;
+        const minW = 54 + N * 98;
+
+        /* --- escalier des familles (au-dessus) : seulement les métiers affichés --- */
+        const branches =
+          mode === "admin"
+            ? ["admin"]
+            : mode === "it"
+              ? ["it"]
+              : ["admin", "it"];
+        const stair = buildStaircase(idx, branches);
+
+        /* --- en-têtes : rang1 diplôme, rang2 grade(s)+barème+fonction --- */
+        let head = `<div class="ucell gut" style="grid-row:1 / span 2;grid-column:1">Anc.</div>`;
+        let i = 0;
+        while (i < N) {
+          let j = i;
+          while (j + 1 < N && cols[j + 1].diplome === cols[i].diplome) j++;
+          head += `<div class="bcell dip" style="grid-row:1;grid-column:${i + 2} / span ${j - i + 1}">${cols[i].diplome}</div>`;
+          i = j + 1;
+        }
+        cols.forEach((c, k) => {
+          head +=
+            `<div class="uh ${colClass(c, mode)}" data-bareme="${c.bareme}" style="grid-row:2;grid-column:${k + 2}">` +
+            `<div class="g">${colGrade(c, mode)}</div><div class="b">${c.bareme}</div>` +
+            `<div class="f">${colFonction(c, mode)}</div></div>`;
+        });
+
+        /* --- données --- */
+        let maxAnc = 0;
+        cols.forEach((c) =>
+          Object.keys(c.steps).forEach((k) => (maxAnc = Math.max(maxAnc, +k))),
+        );
+        let body = "";
+        for (let a = 0; a <= maxAnc; a++) {
+          const row = a + 3;
+          body += `<div class="ucell gut" style="grid-row:${row};grid-column:1">${a}</div>`;
+          cols.forEach((c, k) => {
+            const cl = "col-" + colClass(c, mode);
+            const has = Object.prototype.hasOwnProperty.call(c.steps, a);
+            body += has
+              ? `<div class="ucell ${cl}" data-bareme="${c.bareme}" data-anc="${a}" style="grid-row:${row};grid-column:${k + 2}">${euro.format(c.steps[a])}</div>`
+              : `<div class="ucell ${cl} empty" data-bareme="${c.bareme}" data-anc="${a}" style="grid-row:${row};grid-column:${k + 2}"></div>`;
+          });
+        }
+
+        $("careerHost").innerHTML =
+          `<div class="grid stair" style="grid-template-columns:${tmpl};min-width:${minW}px">${stair.html}</div>` +
+          `<div class="grid bareme" style="grid-template-columns:${tmpl};min-width:${minW}px">${head}${body}</div>`;
+        highlightSim();
+      }
+
+      /* ===========================================================================
+   MISE EN ÉVIDENCE SIMULATEUR
+   =========================================================================== */
+      function highlightSim() {
+        document
+          .querySelectorAll(".sim-current,.sim-next,.sim-path")
+          .forEach((el) =>
+            el.classList.remove("sim-current", "sim-next", "sim-path"),
+          );
+        const sim = document.querySelector(".simbox");
+        if (!sim || !sim.open) return;
+        if (!$("simFam") || !$("simFam").value) return;
+        const path = curPath();
+        const { isPre, idx } = parseGradeVal($("simGrade").value);
+        const gi = isPre ? 0 : Math.min(idx, path.length - 1);
+        const cur = path[gi],
+          g = cur.grade;
+        const yearsIn = parseInt($("simSince").value, 10) || 0;
+        const T = parseInt($("simAnc").value, 10) || 0;
+        const eff = effective(g.steps, T);
+
+        /* position courante */
+        const curHead = document.querySelector(
+          `.uh[data-bareme="${g.bareme}"]`,
+        );
+        if (curHead) curHead.classList.add("sim-current");
+        const curCell = document.querySelector(
+          `.ucell[data-bareme="${g.bareme}"][data-anc="${eff.at}"]`,
+        );
+        if (curCell) {
+          curCell.classList.add("sim-current");
+          /* amener la cellule dans le champ de vision horizontal */
+          const sc = document.querySelector(".refscroll");
+          if (sc) {
+            const cR = curCell.getBoundingClientRect(),
+              sR = sc.getBoundingClientRect();
+            if (cR.right > sR.right || cR.left < sR.left)
+              sc.scrollLeft +=
+                cR.left - sR.left - (sc.clientWidth - cR.width) / 2;
+          }
+        }
+
+        /* cheminement futur : pré-calculer toutes les cellules d'entrée projetées */
+        const terminal = cur.dur === Infinity;
+        let projAnc = terminal ? T : T + Math.max(0, cur.dur - yearsIn);
+        const projKeys = new Set(); // "bareme:ancienneté" des cellules d'entrée projetées
+        if (!terminal) {
+          let pa = projAnc;
+          for (let i = gi + 1; i < path.length; i++) {
+            const fp = path[i],
+              fg = fp.grade;
+            projKeys.add(`${fg.bareme}:${effective(fg.steps, pa).at}`);
+            if (fp.dur !== Infinity) pa += fp.dur;
+          }
+        }
+        let pa2 = projAnc;
+        for (let i = gi + 1; i < path.length; i++) {
+          const fp = path[i],
+            fg = fp.grade,
+            isNext = i === gi + 1;
+          const fHead = document.querySelector(
+            `.uh[data-bareme="${fg.bareme}"]`,
+          );
+          if (fHead) fHead.classList.add(isNext ? "sim-next" : "sim-path");
+          document
+            .querySelectorAll(`.ucell[data-bareme="${fg.bareme}"]`)
+            .forEach((el) => {
+              const key = `${fg.bareme}:${el.dataset.anc}`;
+              el.classList.add(projKeys.has(key) ? "sim-next" : "sim-path");
+            });
+          if (fp.dur !== Infinity) pa2 += fp.dur;
+        }
+      }
+
+      /* ===========================================================================
+   INIT
+   =========================================================================== */
+      function init() {
+        fillFamilySelect();
+        fillGradeSelect();
+        renderUnified("all");
+
+        document.querySelectorAll("input[name=famfilter]").forEach((r) =>
+          r.addEventListener("change", (e) => {
+            renderUnified(e.target.value);
+            pushSimUrl();
+          }),
+        );
+
+        // info-bulle instantanée (ancrée sur body, non rognée par le scroll)
+        const tipEl = document.createElement("div");
+        tipEl.id = "tiptip";
+        document.body.appendChild(tipEl);
+        const showTip = (el) => {
+          const t = el.getAttribute("data-tip");
+          if (!t) return;
+          tipEl.textContent = t;
+          tipEl.classList.add("on");
+          const r = el.getBoundingClientRect();
+          tipEl.style.left = r.left + window.scrollX + r.width / 2 + "px";
+          const above = r.top - tipEl.offsetHeight - 10 > 0;
+          tipEl.classList.toggle("below", !above);
+          tipEl.style.top =
+            (above
+              ? r.top + window.scrollY - tipEl.offsetHeight - 10
+              : r.bottom + window.scrollY + 10) + "px";
+        };
+        const hideTip = () => tipEl.classList.remove("on");
+        document.addEventListener("mouseover", (e) => {
+          const c = e.target.closest(".scell.tip");
+          if (c) showTip(c);
+        });
+        document.addEventListener("mouseout", (e) => {
+          if (e.target.closest(".scell.tip")) hideTip();
+        });
+        document.addEventListener("focusin", (e) => {
+          const c = e.target.closest(".scell.tip");
+          if (c) showTip(c);
+        });
+        document.addEventListener("focusout", hideTip);
+
+        // ---- persistance URL des 4 champs + filtre vue + état ouvert/fermé du simulateur ----
+        function pushSimUrl() {
+          const url = new URL(location.href);
+          const sim = document.querySelector(".simbox");
+          const view =
+            document.querySelector("input[name=famfilter]:checked")?.value ??
+            "all";
+          if (view !== "all") url.searchParams.set("view", view);
+          else url.searchParams.delete("view");
+          if (sim.open) {
+            url.searchParams.set("fam", $("simFam").value);
+            url.searchParams.set("grade", $("simGrade").value);
+            url.searchParams.set("since", $("simSince").value);
+            url.searchParams.set("anc", $("simAnc").value);
+          } else {
+            ["fam", "grade", "since", "anc"].forEach((k) =>
+              url.searchParams.delete(k),
+            );
+          }
+          try {
+            history.replaceState(null, "", url);
+          } catch (e) {
+            /* file:// : ignoré */
+          }
+        }
+
+        function restoreFromUrl() {
+          const p = new URLSearchParams(location.search);
+          const sim = document.querySelector(".simbox");
+          if (p.has("view")) {
+            const v = p.get("view");
+            const r = document.querySelector(
+              `input[name=famfilter][value="${v}"]`,
+            );
+            if (r) {
+              r.checked = true;
+              renderUnified(v);
+            }
+          }
+          if (p.has("fam")) {
+            sim.open = true;
+            // famille d'abord, puis grade (qui dépend de la famille)
+            if (
+              [...$("simFam").options].some((o) => o.value === p.get("fam"))
+            ) {
+              $("simFam").value = p.get("fam");
+              fillGradeSelect();
+            }
+            const gi = parseInt(p.get("grade"), 10);
+            if (!isNaN(gi) && gi < $("simGrade").options.length)
+              $("simGrade").value = gi;
+            const since = parseInt(p.get("since"), 10);
+            if (!isNaN(since)) $("simSince").value = since;
+            const anc = parseInt(p.get("anc"), 10);
+            if (!isNaN(anc)) {
+              $("simAnc").value = anc;
+              $("simAncVal").textContent = anc;
+            }
+          }
+        }
+
+        restoreFromUrl();
+        renderResult();
+
+        $("simFam").addEventListener("change", () => {
+          fillGradeSelect();
+          renderResult();
+          pushSimUrl();
+        });
+        $("simGrade").addEventListener("change", () => {
+          renderResult();
+          pushSimUrl();
+        });
+        $("simSince").addEventListener("input", () => {
+          renderResult();
+          pushSimUrl();
+        });
+        $("simAnc").addEventListener("input", () => {
+          $("simAncVal").textContent = $("simAnc").value;
+          renderResult();
+          pushSimUrl();
+        });
+
+        const sim = document.querySelector(".simbox");
+        sim.addEventListener("toggle", () => {
+          pushSimUrl();
+          highlightSim();
+        });
+      }
+      init();
+    </script>
+  </body>
+</html>
