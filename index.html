@@ -428,6 +428,7 @@
       }
       .share-btn:hover { background: rgba(255,255,255,0.28); }
       .share-btn svg { width: 15px; height: 15px; flex: none; }
+      .share-btn * { cursor: pointer; user-select: none; }
 
       /* ---- Vue carrière : escalier des familles + grille barémique alignés ---- */
       .refscroll {
@@ -2106,18 +2107,13 @@
       };
 
       function shareSimulation() {
-        pushSimUrl();
         const url = location.href;
-        if (navigator.share) {
-          navigator.share({ title: "Ma simulation barème CNE-CSC", url });
-        } else {
-          navigator.clipboard.writeText(url).then(() => {
-            const btn = document.getElementById("shareBtn");
-            const orig = btn.innerHTML;
-            btn.textContent = "✓ Lien copié !";
-            setTimeout(() => { btn.innerHTML = orig; }, 2000);
-          });
-        }
+        navigator.clipboard.writeText(url).then(() => {
+          const btn = document.getElementById("shareBtn");
+          const orig = btn.innerHTML;
+          btn.textContent = "✓ Lien copié !";
+          setTimeout(() => { btn.innerHTML = orig; }, 2000);
+        });
       }
 
       function renderResult() {
