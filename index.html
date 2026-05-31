@@ -57,7 +57,9 @@
         display: flex;
         align-items: center;
         gap: 1rem;
+        flex-wrap: wrap;
       }
+      .brand > div:first-of-type { flex: 1; }
       .logo-box {
         background: #fff;
         padding: 0.4rem 0.55rem;
@@ -98,34 +100,36 @@
         align-items: center;
         flex-wrap: wrap;
         gap: 0.5rem;
-        background: #eef7f1;
-        border: 1px solid #b2d9c0;
+        background: rgba(255,255,255,0.15);
+        border: 1px solid rgba(255,255,255,0.3);
         border-radius: 8px;
-        padding: 0.55rem 0.9rem;
+        padding: 0.45rem 0.8rem;
         font-size: 0.83rem;
-        color: var(--anthracite);
-        margin-bottom: 1rem;
+        color: #fff;
+        margin-left: auto;
+        white-space: nowrap;
       }
       .coeff-bar input[type="number"] {
-        width: 7rem;
-        padding: 0.3rem 0.5rem;
-        font-size: 0.9rem;
-        border: 1px solid #b2d9c0;
+        width: 6rem;
+        padding: 0.25rem 0.45rem;
+        font-size: 0.88rem;
+        border: 1px solid rgba(255,255,255,0.4);
         border-radius: 6px;
-        background: #fff;
-      }
-      .coeff-date { color: var(--muted); font-size: 0.8rem; }
-      .coeff-btn {
-        padding: 0.3rem 0.85rem;
-        background: var(--teal);
+        background: rgba(255,255,255,0.2);
         color: #fff;
+      }
+      .coeff-date { font-size: 0.78rem; opacity: 0.85; }
+      .coeff-btn {
+        padding: 0.28rem 0.75rem;
+        background: #fff;
+        color: var(--teal-dark);
         border: none;
         border-radius: 6px;
         font-size: 0.82rem;
         font-weight: 700;
         cursor: pointer;
       }
-      .coeff-btn:hover { background: var(--teal-dark); }
+      .coeff-btn:hover { background: #e8f5ee; }
 
       nav.tabs {
         display: flex;
@@ -881,6 +885,43 @@
         color: var(--muted);
         margin: 0.3rem 0 0.9rem;
       }
+      .gloss { padding: 0.2rem 0 0.4rem; }
+      .gloss dl { margin: 0; display: flex; flex-direction: column; gap: 0; }
+      .gl-entry {
+        display: grid;
+        grid-template-columns: 12rem 1fr;
+        gap: 0 1rem;
+        padding: 0.6rem 0.5rem;
+        border-bottom: 1px solid var(--line);
+        align-items: baseline;
+      }
+      .gl-entry:last-child { border-bottom: none; }
+      .gl-entry.gl-highlight { background: #f0f9f4; border-radius: 6px; border-bottom: 1px solid var(--line); }
+      .gl-entry dt {
+        font-weight: 700;
+        color: var(--teal-dark);
+        font-size: 0.88rem;
+      }
+      .gl-entry dd {
+        margin: 0;
+        font-size: 0.85rem;
+        color: var(--anthracite);
+        line-height: 1.55;
+      }
+      .gl-note {
+        margin-top: 0.8rem;
+        background: #fff7e6;
+        border: 1px solid #f0d999;
+        border-radius: 8px;
+        padding: 0.7rem 0.9rem;
+        font-size: 0.83rem;
+        color: #6b4e00;
+        line-height: 1.55;
+      }
+      @media (max-width: 600px) {
+        .gl-entry { grid-template-columns: 1fr; gap: 0.15rem; }
+        .gl-entry dt::after { content: " :"; }
+      }
       .info-eg {
         background: #eef7f1;
         border: 1px solid #bfe2cd;
@@ -915,8 +956,13 @@
             <h1>Barèmes — vue synthétique pour les affiliés</h1>
             <p>
               Agents administratifs &amp; informaticiens · brut mensuel indexé
-              (coeff. 2,1647)
             </p>
+          </div>
+          <div class="coeff-bar">
+            <span>Coefficient :</span>
+            <input id="coeffInput" type="number" step="0.0001" min="1" value="2.1647" />
+            <span class="coeff-date">Màj : <span id="coeffDateLbl">mai 2026</span></span>
+            <button id="coeffSave" class="coeff-btn">Appliquer</button>
           </div>
         </div>
       </div>
@@ -929,12 +975,6 @@
         <strong>le barème légal et votre fiche de paie font foi</strong>. Aucune
         donnée saisie ici n'est enregistrée ni transmise : tout est calculé dans
         votre navigateur.
-      </div>
-      <div class="coeff-bar">
-        <span>Coefficient d'indexation :</span>
-        <input id="coeffInput" type="number" step="0.0001" min="1" value="2.1647" />
-        <span class="coeff-date">Mis à jour : <span id="coeffDateLbl">mai 2026</span></span>
-        <button id="coeffSave" class="coeff-btn">Appliquer</button>
       </div>
 
       <!-- ============ INFO FAMILLES (collapse) ============ -->
@@ -1426,6 +1466,51 @@
           5 ans en famille D.
         </p>
       </div>
+
+      <!-- ============ GLOSSAIRE (collapse) ============ -->
+      <details class="collapse">
+        <summary>Glossaire — termes clés</summary>
+        <div class="gloss">
+          <dl>
+            <div class="gl-entry">
+              <dt>Barème</dt>
+              <dd>Grille de salaires officielle identifiée par un code (ex.&nbsp;<strong>24/3</strong>). À chaque barème correspond une série de montants bruts mensuels indexés qui progressent avec l'ancienneté pécuniaire.</dd>
+            </div>
+            <div class="gl-entry">
+              <dt>Échelon barémique</dt>
+              <dd>Palier salarial à l'intérieur d'un même barème, atteint automatiquement après un certain nombre d'années d'ancienneté pécuniaire. L'avancement d'échelon est <strong>automatique</strong>, sans mise en concurrence.</dd>
+            </div>
+            <div class="gl-entry">
+              <dt>Famille de valorisation</dt>
+              <dd>Catégorie RH regroupant des fonctions-types de même niveau et spécialisation. Elle définit le barème d'entrée, les étapes intermédiaires et le barème maximal accessible par avancement.</dd>
+            </div>
+            <div class="gl-entry">
+              <dt>Grade</dt>
+              <dd>Position d'un agent dans l'échelle barémique (ex.&nbsp;<strong>2G5</strong>, <strong>S31</strong>). Chaque grade correspond à un barème précis et une fonction-type.</dd>
+            </div>
+            <div class="gl-entry">
+              <dt>Coefficient d'indexation</dt>
+              <dd>Multiplicateur appliqué aux montants de base pour obtenir le salaire brut réel. Il est révisé périodiquement en fonction de l'<strong>indice santé belge</strong>.</dd>
+            </div>
+            <div class="gl-entry gl-highlight">
+              <dt>Ancienneté pécuniaire</dt>
+              <dd>Nombre d'années retenues pour déterminer l'<strong>échelon salarial</strong> dans le barème. Elle peut être supérieure à l'ancienneté dans le barème grâce aux reprises d'ancienneté.</dd>
+            </div>
+            <div class="gl-entry gl-highlight">
+              <dt>Ancienneté dans le barème</dt>
+              <dd>Durée effective passée dans le barème actuel. <strong>Différente de l'ancienneté pécuniaire</strong> : une reprise d'ancienneté augmente la pécuniaire sans augmenter l'ancienneté dans le barème.</dd>
+            </div>
+            <div class="gl-entry">
+              <dt>Reprise d'ancienneté</dt>
+              <dd>Reconnaissance partielle ou totale d'une expérience professionnelle antérieure (secteur public, privé, indépendant). Les règles varient selon le statut et la fonction. Une reprise augmente l'ancienneté pécuniaire <strong>dès l'engagement</strong>, ce qui peut faire démarrer l'agent à un échelon plus élevé.</dd>
+            </div>
+          </dl>
+          <div class="gl-note">
+            <strong>⚠ Ancienneté pécuniaire ≠ ancienneté dans le barème.</strong>
+            Exemple : un agent engagé avec 6 ans d'expérience privée reprise à 50&nbsp;% démarre avec 3 ans d'ancienneté pécuniaire mais 0 an dans le barème d'engagement. Son salaire correspond à l'échelon 3 ans du barème dès le premier jour, mais il n'a pas encore d'ancienneté institutionnelle. En cas de doute, demandez à votre service RH le détail de votre ancienneté pécuniaire retenue.
+          </div>
+        </div>
+      </details>
     </main>
 
     <footer>
